@@ -60,9 +60,32 @@
     max-width: 100%;
 }
 
+.guide__card{
+    width: 18rem;
+    border: 1px solid #4169E1;
+    transition: transform 0.3s ease;
+}
+
+.guide__card:hover{
+    transform: translateY(-20px); 
+    box-shadow: 0 40px 8px 10px rgba(0, 0, 0, 0.1);
+}
+
+.step__card__svg{
+    width: 45px;
+    height: 45px;
+    margin-bottom: 10px;
+}
+
+
+
+
+
+
+
 
 #footer{
-    background-color: #4169E1;
+    background-color: #2D659D;
     padding: 25px 0 25px 0;
 }
 
