@@ -1,0 +1,31 @@
+@media (max-width: 768px) {
+    .navbar-nav {
+        margin-top: 10px;
+    }
+
+    .navbar-nav .nav-item {
+        margin-bottom: 10px;
+        border-bottom: 1px solid black;
+    }
+
+    .nav-btn{
+        margin-bottom: 10px;
+    }
+
+    .header__button{
+        width: 40%;
+        text-align: center;
+    }
+
+    .navbar-nav .nav-link {
+        color: #333;
+    }
+
+    .promo__title{
+        text-align: center;
+    }
+
+    .promo__text{
+        text-align: center;
+    }
+}

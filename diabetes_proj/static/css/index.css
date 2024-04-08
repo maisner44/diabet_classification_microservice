@@ -1,0 +1,57 @@
+.body{
+    background-color: #D2E8FF;
+}
+
+#header{
+    background-color: #4169E1;
+    padding: 25px 0 25px 0;
+}
+
+.container{
+    max-width: 1680px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+#logo{
+    color: #fff;
+}
+
+.nav-link{
+    color:#fff;
+}
+
+.nav-link:hover{
+    opacity: 1;
+}
+
+
+.header__button{
+    color: black;
+    background-color: #4191E1;
+}
+
+
+.section__promo{
+    min-height: 400px;
+    background-image: url('./img/fon.png');
+    background-attachment: fixed;
+    background-size: contain;
+}
+
+.promo__text{
+    margin-top: 20px;
+    font-size: 30px;
+}
+
+.promo__button{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 50%;
+    margin-top: 30px;
+}
+
+.promo__img{
+    height: auto;
+    max-width: 100%;
+}
