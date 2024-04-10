@@ -5,21 +5,34 @@ from datetime import datetime
 import uuid
 
 
+class Adress(models.Model):
+    """
+    Abstract model for users and organizations adresses
+    """
+    country = models.CharField(max_length=50)
+    city = models.CharField(max_length=50)
+    street = models.CharField(max_length=50)
+    house_number = models.IntegerField()
+    postal_code = models.CharField(max_length=50)
+
+
 class Organization(models.Model):
-    
+    """
+    Organization model for Doctor.This is organization where doctor is currently working
+    """
     organization_name = models.CharField(max_length=255, db_index=True)
     organization_logo = models.ImageField(blank=True)
     organization_phone = models.CharField(max_length=255)
     organization_email = models.EmailField(_("Електронна пошта"))
     organization_description = models.TextField()
     organization_website_url = models.URLField(blank=True)
+    adress_id = models.ForeignKey(Adress, on_delete=models.SET_NULL, db_index=True)
 
 
 class DiaScreenUser(User):
     """
-    Choices for sex options
+    Choices for sex options for user
     """
-    
     MALE = 'Male'
     FEMALE = 'Female'
     SEX_CHOICES = (
@@ -55,11 +68,24 @@ class DiaScreenUser(User):
         abstract = True
 
 
+class Doctor(DiaScreenUser):
+        
+    work_experience = models.IntegerField(db_index=True)
+    specialization = models.CharField(max_length=255)
+    category = models.CharField(max_length=255)
+    certificate_or_diploma = models.FileField(upload_to='certificates/')
+    unique_connect_token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    about = models.TextField()
+    organization_id = models.ForeignKey(Organization, on_delete=models.SET_NULL, db_index=True, blank=True)
+
+    def __str__(self):
+        return self.first_name + " " + self.last_name + " " + self.unique_connect_token
+
+
 class Patient(DiaScreenUser):
     """
     Choices for diabet type options
     """
-
     FIRST_TYPE = 1
     SECOND_TYPE = 2
     NULL_TYPE = 0
@@ -76,6 +102,7 @@ class Patient(DiaScreenUser):
     diabet_type = models.CharField(max_length=10, choices=DIABETES_TYPE_CHOICES, db_index=True, default=NULL_TYPE)
     is_oninsuline = models.BooleanField(db_index=True)
     doctor_id = models.ForeignKey(Doctor, on_delete=models.PROTECT, db_index=True, blank=True)
+    adress_id = models.ForeignKey(Adress, on_delete=models.SET_NULL, blank=True, db_index=True, null=True)
 
     def calculate_BMI(self):
         """
@@ -95,17 +122,3 @@ class Patient(DiaScreenUser):
 
     def __str__(self):
         return self.first_name + " " + self.last_name
-    
-
-class Doctor(DiaScreenUser):
-        
-    work_experience = models.IntegerField(db_index=True)
-    specialization = models.CharField(max_length=255)
-    category = models.CharField(max_length=255)
-    certificate_or_diploma = models.FileField(upload_to='certificates/')
-    unique_connect_token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    about = models.TextField()
-    organization_id = models.ForeignKey(Organization, on_delete=models.PROTECT, db_index=True, blank=True)
-
-    def __str__(self):
-        return self.first_name + " " + self.last_name + " " + self.unique_connect_token
