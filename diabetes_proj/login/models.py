@@ -1,6 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User, AbstractUser
+from django.utils.translation import gettext_lazy as _
 from datetime import datetime
+import uuid
+
+
+class Organization(models.Model):
+    
+    organization_name = models.CharField(max_length=255, db_index=True)
+    organization_logo = models.ImageField(blank=True)
+    organization_phone = models.CharField(max_length=255)
+    organization_email = models.EmailField(_("Електронна пошта"))
+    organization_description = models.TextField()
+    organization_website_url = models.URLField(blank=True)
+
 
 class DiaScreenUser(User):
     """
@@ -40,9 +53,8 @@ class DiaScreenUser(User):
 
     class Meta:
         abstract = True
-        
 
-# Create your models here.
+
 class Patient(DiaScreenUser):
     """
     Choices for diabet type options
@@ -63,6 +75,7 @@ class Patient(DiaScreenUser):
     connect_to_doctor_date = models.DateTimeField(blank=True)
     diabet_type = models.CharField(max_length=10, choices=DIABETES_TYPE_CHOICES, db_index=True, default=NULL_TYPE)
     is_oninsuline = models.BooleanField(db_index=True)
+    doctor_id = models.ForeignKey(Doctor, on_delete=models.PROTECT, db_index=True, blank=True)
 
     def calculate_BMI(self):
         """
@@ -84,11 +97,15 @@ class Patient(DiaScreenUser):
         return self.first_name + " " + self.last_name
     
 
-
 class Doctor(DiaScreenUser):
         
-        work_experience = models.IntegerField()
-        
-   
+    work_experience = models.IntegerField(db_index=True)
+    specialization = models.CharField(max_length=255)
+    category = models.CharField(max_length=255)
+    certificate_or_diploma = models.FileField(upload_to='certificates/')
+    unique_connect_token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    about = models.TextField()
+    organization_id = models.ForeignKey(Organization, on_delete=models.PROTECT, db_index=True, blank=True)
 
-    
+    def __str__(self):
+        return self.first_name + " " + self.last_name + " " + self.unique_connect_token
