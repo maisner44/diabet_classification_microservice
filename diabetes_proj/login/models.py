@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User, AbstractUser
+from django.contrib.auth.models import User, AbstractUser, Group
 from django.utils.translation import gettext_lazy as _
 from datetime import datetime
 import uuid
@@ -15,18 +15,27 @@ class Adress(models.Model):
     house_number = models.IntegerField()
     postal_code = models.CharField(max_length=50)
 
+    class Meta:
+        verbose_name = "Adress"
+        verbose_name_plural = "Adresses"
+
 
 class Organization(models.Model):
     """
     Organization model for Doctor.This is organization where doctor is currently working
     """
     organization_name = models.CharField(max_length=255, db_index=True)
-    organization_logo = models.ImageField(blank=True)
+    organization_logo = models.ImageField(upload_to='organization-logos/',blank=True)
     organization_phone = models.CharField(max_length=255)
     organization_email = models.EmailField(_("Електронна пошта"))
     organization_description = models.TextField()
     organization_website_url = models.URLField(blank=True)
-    adress_id = models.ForeignKey(Adress, on_delete=models.SET_NULL, db_index=True)
+    adress_id = models.ForeignKey(Adress, on_delete=models.SET_NULL, db_index=True, null=True)
+
+    class Meta:
+        ordering = ['organization_name']
+        verbose_name = "Organization"
+        verbose_name_plural = "Organizations"
 
 
 class DiaScreenUser(User):
@@ -45,6 +54,7 @@ class DiaScreenUser(User):
     sex = models.CharField(max_length=20, choices=SEX_CHOICES)
     age = models.IntegerField(db_index=True)
     patronymic = models.CharField(max_length=255, blank=True)
+    avatar = models.ImageField(default='placeholder-img.png', upload_to='profile-pics/', blank=True, null=True)
 
     def calculate_age(self):
         """
@@ -65,21 +75,39 @@ class DiaScreenUser(User):
         super().save(*args, **kwargs)
 
     class Meta:
+        ordering = ['last_name', 'age']
         abstract = True
 
 
 class Doctor(DiaScreenUser):
-        
+    """
+    Doctor model
+    """  
     work_experience = models.IntegerField(db_index=True)
     specialization = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
     certificate_or_diploma = models.FileField(upload_to='certificates/')
     unique_connect_token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     about = models.TextField()
-    organization_id = models.ForeignKey(Organization, on_delete=models.SET_NULL, db_index=True, blank=True)
+    organization_id = models.ForeignKey(Organization, on_delete=models.SET_NULL, db_index=True, blank=True, null=True)
 
     def __str__(self):
         return self.first_name + " " + self.last_name + " " + self.unique_connect_token
+    
+    def save(self, *args, **kwargs):
+        """
+        Overriding abstract user metod from django.contrib.auth.models which add additional
+        functional when this model is save to database
+        """
+        super().save(*args, **kwargs)
+
+        group = Group.objects.get(name='Doctors')
+        group.user_set.add(self)
+    
+    class Meta:
+        ordering = ['work_experience']
+        verbose_name = "Doctor"
+        verbose_name_plural = "Doctors"
 
 
 class Patient(DiaScreenUser):
@@ -119,6 +147,14 @@ class Patient(DiaScreenUser):
         if self.weight and self.height:
             self.body_mass_index = self.calculate_BMI()
         super().save(*args, **kwargs)
+        group = Group.objects.get(name='Patients')
+        group.user_set.add(self)
+
 
     def __str__(self):
         return self.first_name + " " + self.last_name
+    
+    class Meta:
+        ordering = ['connect_to_doctor_date', 'diabet_type', 'is_oninsuline']
+        verbose_name = "Patient"
+        verbose_name_plural = "Patients"
