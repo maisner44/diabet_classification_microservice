@@ -30,7 +30,7 @@ class Organization(models.Model):
     organization_email = models.EmailField(_("Електронна пошта"))
     organization_description = models.TextField()
     organization_website_url = models.URLField(blank=True)
-    adress_id = models.ForeignKey(Adress, on_delete=models.SET_NULL, db_index=True, null=True)
+    adress_id = models.ForeignKey(Adress, on_delete=models.SET_NULL, db_index=True, null=True, blank=True)
 
     class Meta:
         ordering = ['organization_name']
@@ -52,7 +52,7 @@ class DiaScreenUser(User):
     phone_number = models.CharField(max_length=255)
     date_of_birth = models.DateField()
     sex = models.CharField(max_length=20, choices=SEX_CHOICES)
-    age = models.IntegerField(db_index=True)
+    age = models.IntegerField(db_index=True, blank=True, null=True)
     patronymic = models.CharField(max_length=255, blank=True)
     avatar = models.ImageField(default='placeholder-img.png', upload_to='profile-pics/', blank=True, null=True)
 
@@ -87,12 +87,12 @@ class Doctor(DiaScreenUser):
     specialization = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
     certificate_or_diploma = models.FileField(upload_to='certificates/')
-    unique_connect_token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    unique_connect_token = models.UUIDField(default=uuid.uuid4, editable=True, unique=True)
     about = models.TextField()
     organization_id = models.ForeignKey(Organization, on_delete=models.SET_NULL, db_index=True, blank=True, null=True)
 
     def __str__(self):
-        return self.first_name + " " + self.last_name + " " + self.unique_connect_token
+        return self.first_name + " " + self.last_name
     
     def save(self, *args, **kwargs):
         """
@@ -114,22 +114,22 @@ class Patient(DiaScreenUser):
     """
     Choices for diabet type options
     """
-    FIRST_TYPE = 1
-    SECOND_TYPE = 2
-    NULL_TYPE = 0
+    FIRST_TYPE = '1'
+    SECOND_TYPE = '2'
+    NULL_TYPE = 'null'
     DIABETES_TYPE_CHOICES = (
         (FIRST_TYPE, '1 тип'),
         (SECOND_TYPE, '2 тип'),
-        (NULL_TYPE, 'відсутній')
+        (NULL_TYPE, 'відсутній'),
     )
 
     height = models.DecimalField(max_digits=6, decimal_places=2)
     weight = models.DecimalField(max_digits=6, decimal_places=2)
     body_mass_index = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
     connect_to_doctor_date = models.DateTimeField(blank=True)
-    diabet_type = models.CharField(max_length=10, choices=DIABETES_TYPE_CHOICES, db_index=True, default=NULL_TYPE)
+    diabet_type = models.CharField(max_length=10, choices=DIABETES_TYPE_CHOICES, default=NULL_TYPE)
     is_oninsuline = models.BooleanField(db_index=True)
-    doctor_id = models.ForeignKey(Doctor, on_delete=models.PROTECT, db_index=True, blank=True)
+    doctor_id = models.ForeignKey(Doctor, on_delete=models.SET_NULL, blank=True, null=True)
     adress_id = models.ForeignKey(Adress, on_delete=models.SET_NULL, blank=True, db_index=True, null=True)
 
     def calculate_BMI(self):

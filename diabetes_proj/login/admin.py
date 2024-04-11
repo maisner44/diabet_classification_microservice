@@ -29,12 +29,41 @@ class OrganizationAdmin(admin.ModelAdmin):
 
 
 class PatientAdmin(admin.ModelAdmin):
+    list_display = [
+        'first_name', 
+        'last_name',
+        'age', 
+        'email', 
+        'username', 
+        'height',
+        'weight',
+        'body_mass_index',
+        'diabet_type',
+        'is_oninsuline',
+        'doctor_id',
+        'adress_id',
+    ] 
+    list_filter = ['diabet_type', 'is_oninsuline']
+    search_fields = ['first_name', 'last_name', 'username','email']
 
-    fields = ["__all__"]
-    list_filter = ['diabet_type', 'is_oninsuline','doctor_id']
-    search_fields = ['first_name', 'last_name', 'username','email','doctor_id']
+
+class DoctorAdmin(admin.ModelAdmin):
+    list_display = [
+        'first_name', 
+        'last_name',
+        'email', 
+        'username',
+        'work_experience',
+        'specialization',
+        'category',
+        'unique_connect_token',
+        'organization_id',
+    ] 
+    list_filter = ['work_experience']
+    search_fields = ['first_name', 'last_name', 'username','email']
 
 
 admin.site.register(Adress, AdressAdmin)
 admin.site.register(Organization, OrganizationAdmin)
 admin.site.register(Patient, PatientAdmin)
+admin.site.register(Doctor, DoctorAdmin)

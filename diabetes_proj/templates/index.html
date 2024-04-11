@@ -142,7 +142,11 @@
                 <div class="row text-center border-top border-primary">
                     <div class="col-12 mx-auto mt-2">
                         <h2>Додатку віддають перевагу</h2>
-                        
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit">Зарегистрировать</button>
+                        </form>
                     </div>
                 </div>
             </div>
