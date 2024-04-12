@@ -1,28 +1,37 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login as auth_login
 
-from .forms import PatientForm
-from .models import Patient, Adress
+from .forms import PatientForm, AdressForm
 
 # Create your views here.
-class PatientFormView(CreateView):
-    model = Patient
-    form_class = PatientForm
-    template_name = 'login/login.html'
-    success_url = reverse_lazy("home")
+def register_patient(request):
+    if request.method == "POST":
+        patient_form = PatientForm(request.POST)
+        adress_form = AdressForm(request.POST)
+        if patient_form.is_valid() and adress_form.is_valid():
+            patient = patient_form.save(commit=False)
+            adress = adress_form.save()
+            patient.adress = adress
+            patient.save()
 
-    def form_valid(self, form):
-        # Создаем объект Patient, связываем его с Address и сохраняем все вместе
-        patient = form.save(commit=False)
-        address = Adress.objects.create(
-            country=form.cleaned_data["country"],
-            city=form.cleaned_data["city"],
-            street=form.cleaned_data["street"],
-            house_number=form.cleaned_data["house_number"],
-            postal_code=form.cleaned_data["postal_code"]
-        )
-        patient.adress = address
-        patient.save()
-        return super().form_valid(form)
+            return redirect('home')
+        else:
+            return render(request, 'login/registration.html', {'patient_form': patient_form, 'address_form': adress_form})
+    else:
+        patient_form = PatientForm()
+        adress_form = AdressForm()
+        return render(request, 'login/registration.html', {'patient_form': patient_form, 'address_form': adress_form})
+    
 
+def user_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            auth_login(request, form.get_user())
+            return redirect('home')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login/login.html', {'form': form})

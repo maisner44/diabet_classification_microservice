@@ -3,6 +3,7 @@ from django.contrib.auth.models import User, AbstractUser, Group
 from django.utils.translation import gettext_lazy as _
 from datetime import datetime
 import uuid
+from django.contrib.auth.hashers import make_password
 
 
 class Adress(models.Model):
@@ -70,6 +71,8 @@ class DiaScreenUser(User):
         Overriding abstract user metod from django.contrib.auth.models which add additional
         functional when this model is save to database
         """
+        if self.password:
+            self.password = make_password(self.password)
         if self.date_of_birth:
             self.age = self.calculate_age()
         super().save(*args, **kwargs)
@@ -144,9 +147,10 @@ class Patient(DiaScreenUser):
         Overriding abstract user metod from django.contrib.auth.models which add additional
         functional when this model is save to database
         """
-        super().save(*args, **kwargs)
         if self.weight and self.height:
             self.body_mass_index = self.calculate_BMI()
+        super().save(*args, **kwargs)
+       
         group = Group.objects.get(name='Patients')
         group.user_set.add(self)
 

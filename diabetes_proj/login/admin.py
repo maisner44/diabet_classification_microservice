@@ -32,6 +32,7 @@ class PatientAdmin(admin.ModelAdmin):
     list_display = [
         'first_name', 
         'last_name',
+        'password',
         'age', 
         'email', 
         'username', 
@@ -51,6 +52,7 @@ class DoctorAdmin(admin.ModelAdmin):
     list_display = [
         'first_name', 
         'last_name',
+        'password',
         'email', 
         'username',
         'work_experience',
