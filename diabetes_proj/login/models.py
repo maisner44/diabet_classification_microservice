@@ -9,11 +9,11 @@ class Adress(models.Model):
     """
     Abstract model for users and organizations adresses
     """
-    country = models.CharField(max_length=50)
-    city = models.CharField(max_length=50)
-    street = models.CharField(max_length=50)
-    house_number = models.IntegerField()
-    postal_code = models.CharField(max_length=50)
+    country = models.CharField(max_length=50, blank=True, null=True)
+    city = models.CharField(max_length=50, blank=True, null=True)
+    street = models.CharField(max_length=50, blank=True, null=True)
+    house_number = models.IntegerField(blank=True, null=True)
+    postal_code = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         verbose_name = "Adress"
@@ -49,7 +49,7 @@ class DiaScreenUser(User):
         (FEMALE, 'Жіночий'),
     )
 
-    phone_number = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=255, unique=True)
     date_of_birth = models.DateField()
     sex = models.CharField(max_length=20, choices=SEX_CHOICES)
     age = models.IntegerField(db_index=True, blank=True, null=True)
@@ -120,15 +120,15 @@ class Patient(DiaScreenUser):
     DIABETES_TYPE_CHOICES = (
         (FIRST_TYPE, '1 тип'),
         (SECOND_TYPE, '2 тип'),
-        (NULL_TYPE, 'відсутній'),
+        (NULL_TYPE, 'Відсутній'),
     )
 
     height = models.DecimalField(max_digits=6, decimal_places=2)
     weight = models.DecimalField(max_digits=6, decimal_places=2)
     body_mass_index = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
-    connect_to_doctor_date = models.DateTimeField(blank=True)
+    connect_to_doctor_date = models.DateTimeField(blank=True, null=True)
     diabet_type = models.CharField(max_length=10, choices=DIABETES_TYPE_CHOICES, default=NULL_TYPE)
-    is_oninsuline = models.BooleanField(db_index=True)
+    is_oninsuline = models.BooleanField(db_index=True, null=True)
     doctor_id = models.ForeignKey(Doctor, on_delete=models.SET_NULL, blank=True, null=True)
     adress_id = models.ForeignKey(Adress, on_delete=models.SET_NULL, blank=True, db_index=True, null=True)
 
@@ -144,9 +144,9 @@ class Patient(DiaScreenUser):
         Overriding abstract user metod from django.contrib.auth.models which add additional
         functional when this model is save to database
         """
+        super().save(*args, **kwargs)
         if self.weight and self.height:
             self.body_mass_index = self.calculate_BMI()
-        super().save(*args, **kwargs)
         group = Group.objects.get(name='Patients')
         group.user_set.add(self)
 
