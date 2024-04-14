@@ -18,7 +18,15 @@ class PatientForm(forms.ModelForm):
             "weight",
             "diabet_type",
         ]
-        
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        # Проверка, существует ли уже пользователь с таким именем
+        if Patient.objects.filter(username=username).exists():
+            raise forms.ValidationError("Користувач з таким логіном вже існує")
+        if (len(username) < 6 ):
+            raise forms.ValidationError("Логін занадто короткий")
+        return username
 
 
 class AdressForm(forms.ModelForm):

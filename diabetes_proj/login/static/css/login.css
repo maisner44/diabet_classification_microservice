@@ -2,6 +2,10 @@ body{
     background-color: #D2E8FF;
 }
 
+html{
+    scroll-behavior: smooth !important;
+}
+
 .container{
     max-width: 1680px;
     margin: 0 auto;
@@ -23,15 +27,59 @@ body{
     height: 400px;
 }
 
+.patient__form{
+    margin-top: 50px;
+}
+
 .patientform__background{
-    background-color: white !important;
+    background-color: rgb(255, 255, 255);
     padding: 20px;
     max-width: 1000px;
-    width: 100%;
+    height: auto;
     margin: 0 auto;
     border: 1px solid black;
 }
 
-form input{
-    width: 60%;
+label{
+    display: block;
+}
+
+legend{
+    font-size: 18px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 8px;
+    margin: 6px 0;
+    border: 1px solid #ced4da; 
+    border-radius: 4px; 
+    box-sizing: border-box;
+}
+
+.invalid{
+    border: 1px solid red;
+}
+
+.error{
+    color: red;
+    font-size: 16px;
+}
+
+.reg__link{
+    text-decoration: none;
+    color: black;
+}
+
+.reg__link:hover{
+    color: #1482f7;
+    font-weight: medium;
+}
+
+@media (max-width: 768px) {
+    .patientform__background {
+        width: 100%; 
+        padding: 10px;
+    }
 }
