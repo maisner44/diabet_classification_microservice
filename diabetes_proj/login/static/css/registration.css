@@ -2,10 +2,6 @@ body{
     background-color: #D2E8FF;
 }
 
-html{
-    scroll-behavior: smooth !important;
-}
-
 .container{
     max-width: 1680px;
     margin: 0 auto;
@@ -22,6 +18,10 @@ html{
 }
 
 .patient__choice, .doctor__choice{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
     margin-top: 20px;
     width: 100%;
     height: 400px;
@@ -31,7 +31,11 @@ html{
     margin-top: 50px;
 }
 
-.patientform__background{
+.doctor__form{
+    margin-top: 50px;
+}
+
+.form__background{
     background-color: rgb(255, 255, 255);
     padding: 20px;
     max-width: 1000px;
@@ -67,15 +71,6 @@ select {
     font-size: 16px;
 }
 
-.reg__link{
-    text-decoration: none;
-    color: black;
-}
-
-.reg__link:hover{
-    color: #1482f7;
-    font-weight: medium;
-}
 
 @media (max-width: 768px) {
     .patientform__background {

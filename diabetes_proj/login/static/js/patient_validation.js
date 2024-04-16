@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function(){
             firstnameError.classList.add('invalid');
             firstnameFeedback.innerText = 'Заповніть поле';
             return false;
-        } else if (!checkForDigits(last_name)){
+        } else if (!checkForDigits(first_name)){
             firstnameError.classList.add('invalid');
             firstnameFeedback.innerText = 'У імені не може бути цифр';
             return false;
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function(){
             patronymicError.classList.add('invalid');
             patronymicFeedbackFeedback.innerText = 'Заповніть поле';
             return false;
-        } else if (!checkForDigits(last_name)){
+        } else if (!checkForDigits(patronymic)){
             patronymicError.classList.add('invalid');
             patronymicFeedback.innerText = 'У прізвищі не може бути цифр';
             return false;

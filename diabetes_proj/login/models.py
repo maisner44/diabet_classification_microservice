@@ -91,7 +91,7 @@ class Doctor(DiaScreenUser):
     category = models.CharField(max_length=255)
     certificate_or_diploma = models.FileField(upload_to='certificates/')
     unique_connect_token = models.UUIDField(default=uuid.uuid4, editable=True, unique=True)
-    about = models.TextField()
+    about = models.TextField(blank=True, null=True)
     organization_id = models.ForeignKey(Organization, on_delete=models.SET_NULL, db_index=True, blank=True, null=True)
 
     def __str__(self):
