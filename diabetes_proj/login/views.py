@@ -1,8 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.contrib.auth import login as auth_login
+
 
 from .forms import PatientForm, AdressForm, DoctorForm
 
@@ -57,3 +58,18 @@ def user_login(request):
     else:
         form = AuthenticationForm()
     return render(request, 'login/login.html', {'form': form})
+
+
+def user_resetpassword(request):
+    if request.method == 'POST':
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            form.save(
+                subject_template_name='Hello',
+                email_template_name='Hello',
+                request=request,
+            )
+    else:
+        form = PasswordResetForm()
+    
+    return render(request, 'login/reset-password.html', {'form' : form})
