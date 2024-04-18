@@ -22,4 +22,5 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name = 'index.html'), name='home'),
     path('admin/', admin.site.urls),
     path('accounts/', include('login.urls')),
+    path('doctor-search/', include('doctor_search.urls')),
 ]
