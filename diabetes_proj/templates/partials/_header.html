@@ -1,3 +1,4 @@
+{% load static %}
 <header id="header">
     <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light text-center text-light">
@@ -19,9 +20,14 @@
                         <li class="nav-item">
                           <a class="nav-link" href="#">API</a>
                         </li>
+                        {% if not user.is_authenticated %}
                         <li class="nav-btn">
                             <a href="{% url 'login'%}" class="btn btn-primary header__button" type="button">Увійти</a>
                         </li>
+                        <li class="nav-btn">
+                          <a href="{% url 'registration'%}" class="btn btn-primary header__button" type="button">Реєстрація</a>
+                        </li>
+                        {% endif %}
                         <li class="nav-item">
                             <div class="dropdown-center">
                                 <a class="btn btn-primary header__button" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -33,6 +39,14 @@
                                   <li><a class="dropdown-item" href="#">Something else here</a></li>
                                 </ul>
                             </div>
+                        </li>
+                        <li class="nav-btn">
+                          <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="logout-btn">
+                              <img src="{% static 'img/svg/box-arrow-right.svg' %}" alt="Кнопка виходу">
+                            </button>
+                          </form>
                         </li>
                     </ul>
                 </div>
