@@ -44,7 +44,7 @@ def register_doctor(request):
         else:
             return render(request, 'login/doctor_form.html', {'doctor_form': doctor_form})
     else:
-        doctor_form = DoctorForm(request.POST)
+        doctor_form = DoctorForm()
 
     return render(request, 'login/doctor_form.html', {'doctor_form': doctor_form})
 
@@ -59,17 +59,3 @@ def user_login(request):
         form = AuthenticationForm()
     return render(request, 'login/login.html', {'form': form})
 
-
-def user_resetpassword(request):
-    if request.method == 'POST':
-        form = PasswordResetForm(request.POST)
-        if form.is_valid():
-            form.save(
-                subject_template_name='Hello',
-                email_template_name='Hello',
-                request=request,
-            )
-    else:
-        form = PasswordResetForm()
-    
-    return render(request, 'login/reset-password.html', {'form' : form})
