@@ -1,0 +1,80 @@
+body{
+    background-color: #D2E8FF;
+}
+
+.container{
+    max-width: 1680px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+.option__choice{
+    height: 100vh;
+    padding-top: 50px;
+}
+
+.nav-link{
+    margin-top: 50px;
+}
+
+.patient__choice, .doctor__choice{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    margin-top: 20px;
+    width: 100%;
+    height: 400px;
+}
+
+.patient__form{
+    margin-top: 50px;
+}
+
+.doctor__form{
+    margin-top: 50px;
+}
+
+.form__background{
+    background-color: rgb(255, 255, 255);
+    padding: 20px;
+    max-width: 1000px;
+    height: auto;
+    margin: 0 auto;
+    border: 1px solid black;
+}
+
+label{
+    display: block;
+}
+
+legend{
+    font-size: 18px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 8px;
+    margin: 6px 0;
+    border: 1px solid #ced4da; 
+    border-radius: 4px; 
+    box-sizing: border-box;
+}
+
+.invalid{
+    border: 1px solid red;
+}
+
+.error{
+    color: red;
+    font-size: 16px;
+}
+
+
+@media (max-width: 768px) {
+    .patientform__background {
+        width: 100%; 
+        padding: 10px;
+    }
+}

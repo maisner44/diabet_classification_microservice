@@ -1,0 +1,45 @@
+body{
+    background-color: #D2E8FF;
+}
+
+.container{
+    max-width: 1680px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+#section{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input,
+select {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    height: 40px;
+    margin: 6px 0;
+    border: 1px solid #ced4da; 
+    border-radius: 4px; 
+    box-sizing: border-box;
+}
+
+form{
+    margin: 0 auto;
+}
+
+.form__background{
+    background-color: rgb(255, 255, 255);
+    padding: 20px;
+    width: 650px;
+    height: auto;
+    margin: 0 auto;
+    border: 1px solid black;
+}
+
+.form__button:not(:first-of-type){
+    margin-left: 10px;
+}
