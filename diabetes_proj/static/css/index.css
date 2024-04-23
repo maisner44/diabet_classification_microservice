@@ -1,11 +1,9 @@
-.body{
-    background-color: #D2E8FF;
-}
 
 #header{
     background-color: #4169E1;
     padding: 25px 0 25px 0;
 }
+
 
 #logo{
     font-size: 35px;
@@ -95,6 +93,7 @@
 #footer{
     background-color: #2D659D;
     padding: 25px 0 25px 0;
+    clear: both;
 }
 
 .footer__column{

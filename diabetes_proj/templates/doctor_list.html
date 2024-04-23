@@ -6,15 +6,29 @@
 {% endblock styles %}
 
 {% block content %}
-<section id="section">
+<section id="section" class="my-3 section">
     <div class="container">
         <div class="row">
-            {% for doctor in object_list %}
-            <div class="col-md-4">
-                <div class="card mb-3" style="max-width: 540px;">
+            <div class="col-md-3">
+              <aside>
+                  <form method="get" class="search__form">
+                    {{ search_form.as_p }}
+                  <button type="submit" class="btn btn-primary submit_filter_btn">Пошук</button>
+                  </form>
+                  <h2 class="fs-4 filter__title">Розширені фільтри пошуку</h2>
+                  <form method="get" class="filter__form" novalidate>
+                     {{ filter_form.as_p }}
+                     <button type="submit" class="btn btn-primary submit_filter_btn">Примінити фільтри</button>
+                  </form>
+              </aside>
+            </div>
+            <div class="col-md-9">
+              <div class="row" id="doctor_row">
+                  {% for doctor in object_list %}
+                  <div class="card mx-4 mb-3" style="max-width: 540px;">
                     <div class="row g-0">
                       <div class="col-md-4">
-                        <img src="{{ doctor.avatar.url }}" class="img-fluid rounded-start" alt="аватар доктора">
+                        <img src="{{ doctor.avatar.url }}" class="img-fluid" alt="аватар доктора">
                       </div>
                       <div class="col-md-8">
                         <div class="card-body">
@@ -25,29 +39,31 @@
                       </div>
                     </div>
                   </div>
+                  {% if forloop.counter|divisibleby:2 and not forloop.last %}
+                </div><div class="row">
+                {% endif %}
+                {% endfor %}    
             </div>
-        {% if forloop.counter|divisibleby:3 and not forloop.last %}
-        </div><div class="row">
-        {% endif %}
-        {% endfor %}
-        </div>
-        <div class="pagination">
-            <span class="step-links">
-                {% if page_obj.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-                {% endif %}
-        
-                <span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </span>
-        
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">next</a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
-            </span>
-        </div>
+            <div class="row">
+              <div class="col-12 mx-auto text-center fs-4">
+                  <span class="step-links">
+                      {% if page_obj.has_previous %}
+                          <a href="?page=1">&laquo; first</a>
+                          <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                      {% endif %}
+              
+                      <span class="current">
+                          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                      </span>
+              
+                      {% if page_obj.has_next %}
+                          <a href="?page={{ page_obj.next_page_number }}">next</a>
+                          <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                      {% endif %}
+                  </span>
+              </div>
+          </div>
+    </div>
     </div>
 </section>
 
