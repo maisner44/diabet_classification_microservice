@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock styles %}
+
+{% block content %}
+
+<section id="section" class="my-3">
+    <div class="container">
+        <div class="row">
+            {% if not is_doctor %}
+            <div class="col-md-2 border">
+                <aside>
+                    <ul class="list-group">
+                        <li class="list-group-item active">Ваш профіль</li>
+                        <li class="list-group-item">Пацієнти</li>
+                        <li class="list-group-item">
+                            Повідомлення
+                            <span class="badge text-bg-primary rounded-pill"></span>
+                        </li>
+                      </ul>
+                </aside>
+            </div>
+            {% endif %}
+            <div class="col-md-10 border">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="{{ doctor.avatar.url }}" class="profile-img" alt="аватар доктора">
+                    </div>
+                    <div class="col-md-8">
+                        <h2 class="my-3 mb-5">{{ doctor.last_name }} {{ doctor.first_name }}  {{ doctor.patronymic }}</h2>
+                        <p class="fs-5"><span class="fw-semibold">Категорія:</span> {{ doctor.category }}</p>
+                        <p class="fs-5"><span class="fw-semibold">Стаж лікаря:</span> {{ doctor.work_experience }}</p>
+                        <p class="fs-5"><span class="fw-semibold">Про лікаря:</span></p>
+                        <p>{{ doctor.about }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

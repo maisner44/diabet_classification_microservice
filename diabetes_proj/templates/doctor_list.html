@@ -6,7 +6,7 @@
 {% endblock styles %}
 
 {% block content %}
-<section id="section" class="my-3 section">
+<section id="section"  class="my-3">
     <div class="container">
         <div class="row">
             <div class="col-md-3">
@@ -26,7 +26,7 @@
               <div class="row" id="doctor_row">
                   {% for doctor in object_list %}
                   <div class="card mx-4 mb-3" style="max-width: 540px;">
-                    <div class="row g-0">
+                    <a href="{% url 'doctor_profile' pk=doctor.pk %}" сlass="doctor-link"><div class="row g-0">
                       <div class="col-md-4">
                         <img src="{{ doctor.avatar.url }}" class="img-fluid" alt="аватар доктора">
                       </div>
@@ -37,7 +37,7 @@
                           <p class="card-text"><small class="text-body-secondary">{{ doctor.age }}</small></p>
                         </div>
                       </div>
-                    </div>
+                    </div></a>
                   </div>
                   {% if forloop.counter|divisibleby:2 and not forloop.last %}
                 </div><div class="row">
