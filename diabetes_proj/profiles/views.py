@@ -1,12 +1,14 @@
 from typing import Any
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views import generic
 from login.models import Doctor, Patient
 from .models import DoctorsProfileFeedback
 from .forms import FeedbackForm
 
-# Create your views here.
+
+
 class DoctorProfile(generic.DetailView):
     model = Doctor
     template_name = 'doctor_profile.html'
@@ -27,6 +29,7 @@ class DoctorProfile(generic.DetailView):
         context['is_patient'] = is_patient
         context['is_doctor'] = is_doctor
         context['feedback_form'] = FeedbackForm()
+        
 
         # List of feedbacks about doctor with pagination
         doctor_id = self.object.pk
@@ -43,6 +46,7 @@ class DoctorProfile(generic.DetailView):
         return self.object
     
     
+    @login_required
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         feedback_form = FeedbackForm(request.POST)

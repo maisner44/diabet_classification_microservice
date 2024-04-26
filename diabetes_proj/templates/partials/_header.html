@@ -29,16 +29,15 @@
                         </li>
                         {% endif %}
                         <li class="nav-item">
-                            <div class="dropdown-center">
-                                <a class="btn btn-primary header__button" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Профіль
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                  <li><a class="dropdown-item" href="#">Action</a></li>
-                                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                            </div>
+                              {% if 'Doctors' in user.groups.all|join:", " %}
+                              <a class="btn btn-primary header__button" href="{% url 'doctor_profile' pk=user.pk %}">
+                                  Профіль
+                              </a>
+                              {% elif 'Patients' in user.groups.all|join:", " %}
+                              <a class="btn btn-primary header__button" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Профіль
+                              </a>
+                              {% endif %}
                         </li>
                         <li class="nav-btn">
                           <form action="{% url 'logout' %}" method="post">

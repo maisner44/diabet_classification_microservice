@@ -11,17 +11,17 @@
 <section id="section" class="my-3">
     <div class="container">
         <div class="row">
-            {% if not is_doctor %}
+            {% if is_doctor %}
             <div class="col-md-2 border">
                 <aside>
                     <ul class="list-group">
-                        <li class="list-group-item active">Ваш профіль</li>
-                        <li class="list-group-item">Пацієнти</li>
+                        <li class="list-group-item active"><a href="{% url 'doctor_profile' pk=doctor.pk %}" class="profile-link">Ваш профіль</a></li>
+                        <li class="list-group-item"><a href="#" class="profile-link">Пацієнти</a></li>
                         <li class="list-group-item">
-                            Повідомлення
+                            <a href="#" class="profile-link">Повідомлення</a>
                             <span class="badge text-bg-primary rounded-pill"></span>
                         </li>
-                      </ul>
+                    </ul>
                 </aside>
             </div>
             {% endif %}
@@ -31,7 +31,14 @@
                         <img src="{{ doctor.avatar.url }}" class="profile-img" alt="аватар доктора">
                     </div>
                     <div class="col-md-8">
-                        <h2 class="my-3 mb-5">{{ doctor.last_name }} {{ doctor.first_name }}  {{ doctor.patronymic }}</h2>
+                        <div class="row align-items-center my-3">
+                            <div class="col-md-8">
+                                <h2>{{ doctor.last_name }} {{ doctor.first_name }}  {{ doctor.patronymic }}</h2>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="#" class="btn btn-primary">Ред</a>
+                            </div>
+                        </div>
                         <p class="fs-5"><span class="fw-semibold">Категорія:</span> {{ doctor.category }}</p>
                         <p class="fs-5"><span class="fw-semibold">Стаж лікаря:</span> {{ doctor.work_experience }}</p>
                         <div class="row">
@@ -79,11 +86,12 @@
                 {% for feedback in feedback_list %}
                     <div class="card mb-3">
                         <div class="card-body">
+                            <p class="fs-5"><strong>{{ feedback.patient_id.first_name }} {{ feedback.patient_id.last_name }}</strong></p>
                             <p>{{ feedback.feedback_text }}</p>
                         </div>
                     </div>
                 {% empty %}
-                    <p>На данный момент отзывов нет.</p>
+                    <p>У лікаря ще немає відгуків</p>
                 {% endfor %}
                 {% if feedback_list.has_other_pages %}
                     <nav aria-label="Feedback pagination">
@@ -111,6 +119,7 @@
         </div>
     </div>
 </section>
+{% if not user.is_authenticated and not is_doctor %}
 <section id="section" class="my-3 feedback-form-section">
     <div class="container">
         <h2 class="text-center">Залиште свій власний відгук</h2>
@@ -128,4 +137,5 @@
         </div>
     </div>
 </section>
+{% endif %}
 {% endblock content %}

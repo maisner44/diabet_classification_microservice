@@ -14,6 +14,12 @@ body {
     flex: 1;
 }
 
+
+.profile-link{
+    text-decoration: none;
+    color: black;
+}
+
 footer {
     margin-top: auto;
 }
