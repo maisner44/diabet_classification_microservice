@@ -34,10 +34,49 @@
                         <h2 class="my-3 mb-5">{{ doctor.last_name }} {{ doctor.first_name }}  {{ doctor.patronymic }}</h2>
                         <p class="fs-5"><span class="fw-semibold">Категорія:</span> {{ doctor.category }}</p>
                         <p class="fs-5"><span class="fw-semibold">Стаж лікаря:</span> {{ doctor.work_experience }}</p>
-                        <p class="fs-5"><span class="fw-semibold">Про лікаря:</span></p>
-                        <p>{{ doctor.about }}</p>
+                        <div class="row">
+                            <h2 class="my-2 mb-3">Організація лікаря</h2>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        {% if doctor.organization_id.organization_logo %}
+                                        <img src="{{ doctor.organization_id.organization_logo.url }}" class="org-img" alt="лого організації">
+                                        <p class="text-center">{{ doctor.organization_id.organization_name}}</p>
+                                        {% else %}
+                                        <img src="{% static 'img/fon.png' %}" class="org-img" alt="лого організації">
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <p><span class="fs-5 fw-semibold">Номер організації:</span> {{ doctor.organization_id.organization_phone}}</p>
+                                        <p><span class="fs-5 fw-semibold">Електронна пошта організації:</span> {{ doctor.organization_id.organization_email}}</p>
+                                        <p><span class="fs-5 fw-semibold">Сайт організації:</span><a href="{{ doctor.organization_id.organization_website_url }}"> {{ doctor.organization_id.organization_website_url}}</a></p>
+                                        <p><span class="fs-5 fw-semibold">Опис організації:</span> {{ doctor.organization_id.organization_description}}</p>
+                                        <p><span class="fs-5 fw-semibold">Адреса організації:</span>
+                                            {{ doctor.organization_id.adress_id.country}}/{{ doctor.organization_id.adress_id.city}},
+                                            {{ doctor.organization_id.adress_id.street}},
+                                            буд. {{ doctor.organization_id.adress_id.house_number}},
+                                            {{ doctor.organization_id.adress_id.postal_code}}
+                                        </p>
+                                    </div>
+                                </div>
+                        </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="my-2 mb-3 fs-1">Інформація про лікаря</h2>
+                        <p class="fs-4">{{ doctor.about }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="section" class="my-3 feedback-section">
+    <div class="container">
+        <h2 class="text-center">Відгуки про лікаря</h2>
+        <div class="row">
+            <div class="col-12">
+
             </div>
         </div>
     </div>

@@ -17,3 +17,8 @@ body {
 footer {
     margin-top: auto;
 }
+
+.org-img {
+    width: 200px;
+    height: auto; 
+}
