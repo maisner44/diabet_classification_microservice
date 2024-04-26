@@ -76,7 +76,54 @@
         <h2 class="text-center">Відгуки про лікаря</h2>
         <div class="row">
             <div class="col-12">
-
+                {% for feedback in feedback_list %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <p>{{ feedback.feedback_text }}</p>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>На данный момент отзывов нет.</p>
+                {% endfor %}
+                {% if feedback_list.has_other_pages %}
+                    <nav aria-label="Feedback pagination">
+                        <ul class="pagination justify-content-center">
+                            {% if feedback_list.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1">&laquo; Первая</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ feedback_list.previous_page_number }}">Предыдущая</a>
+                                </li>
+                            {% endif %}
+                            {% if feedback_list.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ feedback_list.next_page_number }}">Следующая</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ feedback_list.paginator.num_pages }}">Последняя &raquo;</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+<section id="section" class="my-3 feedback-form-section">
+    <div class="container">
+        <h2 class="text-center">Залиште свій власний відгук</h2>
+        <div class="row">
+            <div class="col-12">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Залиште відгук про лікаря тут</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="feedback_text"></textarea>
+                      </div>
+                    <button type="submit" class="btn btn-primary">Відправити відгук</button>
+                </form>
             </div>
         </div>
     </div>
