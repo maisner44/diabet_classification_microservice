@@ -8,3 +8,7 @@ class FeedbackForm(forms.ModelForm):
         widgets = {
             'feedback_text': forms.Textarea(attrs={'maxlength': 1000, 'minlength': 20, 'required': True}),
         }
+
+
+class DoctorLinkForm(forms.Form):
+    doctor_unique_token = forms.CharField(max_length=255, required=True)

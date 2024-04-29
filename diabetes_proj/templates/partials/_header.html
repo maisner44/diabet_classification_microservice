@@ -34,7 +34,7 @@
                                   Профіль
                               </a>
                               {% elif 'Patients' in user.groups.all|join:", " %}
-                              <a class="btn btn-primary header__button" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              <a class="btn btn-primary header__button" href="{% url 'patient_profile' pk=user.pk %}">
                                   Профіль
                               </a>
                               {% endif %}

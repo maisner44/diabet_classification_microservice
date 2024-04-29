@@ -4,6 +4,7 @@
 
 {% block styles %}
 <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<script src="{% static 'js/doctor_profile.js' %}"></script>
 {% endblock styles %}
 
 {% block content %}
@@ -37,6 +38,10 @@
                             </div>
                             <div class="col-md-4">
                                 <a href="#" class="btn btn-primary">Ред</a>
+                                <div class="hidden-text">
+                                    {{doctor.unique_connect_token}}
+                                </div>
+                                <button onclick="copyHiddenText()" class="btn btn-primary">Отримати код лікаря</button>
                             </div>
                         </div>
                         <p class="fs-5"><span class="fw-semibold">Категорія:</span> {{ doctor.category }}</p>
