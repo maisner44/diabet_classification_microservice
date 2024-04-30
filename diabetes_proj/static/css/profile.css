@@ -20,6 +20,11 @@ body {
     color: black;
 }
 
+.profile__img{
+    width: 400px;
+    height: 400px;
+}
+
 footer {
     margin-top: auto;
 }
@@ -37,3 +42,8 @@ footer {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+
+.hidden-text{
+    display: none;
+}
+
