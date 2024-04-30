@@ -149,6 +149,9 @@ class Patient(DiaScreenUser):
         """
         if self.weight and self.height:
             self.body_mass_index = self.calculate_BMI()
+        if self.diabet_type == 1:
+            self.is_oninsuline = True
+        
         super().save(*args, **kwargs)
        
         group = Group.objects.get(name='Patients')
