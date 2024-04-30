@@ -2,7 +2,7 @@ from typing import Any
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from login.models import Doctor, Patient
 from .models import DoctorsProfileFeedback
@@ -128,15 +128,22 @@ class PatientProfile(generic.DetailView):
     def post(self, request, *args, **kwargs):
         link_form = DoctorLinkForm(request.POST)
         if link_form.is_valid():
-            token = link_form.cleaned_data['doctor_unique_token']
-            doctor = Doctor.objects.get(unique_connect_token=token)
+            token = link_form.cleaned_data['unique_connect_token']
+            doctor = get_object_or_404(Doctor, unique_connect_token=token)
             patient = self.get_object()
             patient.doctor_id = doctor
-            patient.save()
-            return redirect('patient_profile', pk=patient.pk)
-        return self.render_to_response(self.get_context_data())
+            patient.save(update_fields=['doctor_id'])
+            return redirect('patient_profile', pk=patient.id)
+        return render(request, 'patient_profile.html', {'link_form': link_form})
 
     def get_object(self, queryset=None):
         if not hasattr(self, 'object'):
             self.object = super().get_object(queryset)
         return self.object
+    
+
+class DoctorsPatientList(generic.ListView):
+    model = Patient
+    paginate_by = 6
+    template_name = 'doctor_list.html'
+    context_object_name = 'patient'

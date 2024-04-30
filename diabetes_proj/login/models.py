@@ -104,9 +104,8 @@ class Doctor(DiaScreenUser):
         functional when this model is save to database
         """
         super().save(*args, **kwargs)
-        if not self.groups.filter(name='Doctors').exists():
-            group = Group.objects.get(name='Doctors')
-            group.user_set.add(self)
+        group = Group.objects.get(name='Doctors')
+        group.user_set.add(self)
     
     class Meta:
         ordering = ['work_experience']
@@ -155,9 +154,8 @@ class Patient(DiaScreenUser):
         if self.doctor_id and not self.connect_to_doctor_date:
             self.connect_to_doctor_date = timezone.now()
         super().save(*args, **kwargs)
-        if not self.groups.filter(name='Patients').exists():
-            group = Group.objects.get(name='Patients')
-            group.user_set.add(self)
+        group = Group.objects.get(name='Patients')
+        group.user_set.add(self)
 
 
     def __str__(self):
