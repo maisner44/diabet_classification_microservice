@@ -149,7 +149,7 @@ class Patient(DiaScreenUser):
         """
         if self.weight and self.height:
             self.body_mass_index = self.calculate_BMI()
-        if self.diabet_type == 1:
+        if self.diabet_type == self.FIRST_TYPE:
             self.is_oninsuline = True
         if self.doctor_id and not self.connect_to_doctor_date:
             self.connect_to_doctor_date = timezone.now()
