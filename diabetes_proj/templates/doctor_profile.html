@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<script src="{% static 'js/doctor_profile.js' %}"></script>
+{% endblock styles %}
+
+{% block content %}
+
+<section id="section" class="my-3">
+    <div class="container">
+        <div class="row">
+            {% if is_doctor and user.id == doctor.id %}
+            <div class="col-md-2 border">
+                <aside>
+                    <ul class="list-group">
+                        <li class="list-group-item active"><a href="{% url 'doctor_profile' pk=doctor.pk %}" class="profile-link">Ваш профіль</a></li>                       
+                        <li class="list-group-item"><a href="{% url 'patient_list' %}" class="profile-link">Пацієнти</a></li>
+                        <li class="list-group-item">
+                            <a href="#" class="profile-link">Повідомлення</a>
+                            <span class="badge text-bg-primary rounded-pill"></span>
+                        </li>
+                    </ul>
+                </aside>
+            </div>
+            {% endif %}
+            <div class="col-md-10 border">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="{{ doctor.avatar.url }}" class="profile-img" alt="аватар доктора">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row align-items-center my-3">
+                            <div class="col-md-8">
+                                <h2>{{ doctor.last_name }} {{ doctor.first_name }}  {{ doctor.patronymic }}</h2>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="#" class="btn btn-primary">Ред</a>
+                                <div class="hidden-text">
+                                    {{doctor.unique_connect_token}}
+                                </div>
+                                <button onclick="copyHiddenText()" class="btn btn-primary">Отримати код лікаря</button>
+                            </div>
+                        </div>
+                        <p class="fs-5"><span class="fw-semibold">Категорія:</span> {{ doctor.category }}</p>
+                        <p class="fs-5"><span class="fw-semibold">Стаж лікаря:</span> {{ doctor.work_experience }}</p>
+                        <div class="row">
+                            <h2 class="my-2 mb-3">Організація лікаря</h2>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        {% if doctor.organization_id.organization_logo %}
+                                        <img src="{{ doctor.organization_id.organization_logo.url }}" class="org-img" alt="лого організації">
+                                        <p class="text-center">{{ doctor.organization_id.organization_name}}</p>
+                                        {% else %}
+                                        <img src="{% static 'img/fon.png' %}" class="org-img" alt="лого організації">
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <p><span class="fs-5 fw-semibold">Номер організації:</span> {{ doctor.organization_id.organization_phone}}</p>
+                                        <p><span class="fs-5 fw-semibold">Електронна пошта організації:</span> {{ doctor.organization_id.organization_email}}</p>
+                                        <p><span class="fs-5 fw-semibold">Сайт організації:</span><a href="{{ doctor.organization_id.organization_website_url }}"> {{ doctor.organization_id.organization_website_url}}</a></p>
+                                        <p><span class="fs-5 fw-semibold">Опис організації:</span> {{ doctor.organization_id.organization_description}}</p>
+                                        <p><span class="fs-5 fw-semibold">Адреса організації:</span>
+                                            {{ doctor.organization_id.adress_id.country}}/{{ doctor.organization_id.adress_id.city}},
+                                            {{ doctor.organization_id.adress_id.street}},
+                                            буд. {{ doctor.organization_id.adress_id.house_number}},
+                                            {{ doctor.organization_id.adress_id.postal_code}}
+                                        </p>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="my-2 mb-3 fs-1">Інформація про лікаря</h2>
+                        <p class="fs-4">{{ doctor.about }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="section" class="my-3 feedback-section">
+    <div class="container">
+        <h2 class="text-center">Відгуки про лікаря</h2>
+        <div class="row">
+            <div class="col-12">
+                {% for feedback in feedback_list %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <p class="fs-5"><strong>{{ feedback.patient_id.first_name }} {{ feedback.patient_id.last_name }}</strong></p>
+                            <p>{{ feedback.feedback_text }}</p>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>У лікаря ще немає відгуків</p>
+                {% endfor %}
+                {% if feedback_list.has_other_pages %}
+                    <nav aria-label="Feedback pagination">
+                        <ul class="pagination justify-content-center">
+                            {% if feedback_list.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1">&laquo; Перша</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ feedback_list.previous_page_number }}">Попередня</a>
+                                </li>
+                            {% endif %}
+                            {% if feedback_list.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ feedback_list.next_page_number }}">Наступна</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ feedback_list.paginator.num_pages }}">Остання &raquo;</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% if user.is_authenticated and not is_doctor %}
+<section id="section" class="my-3 feedback-form-section">
+    <div class="container">
+        <h2 class="text-center">Залиште свій власний відгук</h2>
+        <div class="row">
+            <div class="col-12">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Залиште відгук про лікаря тут</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="feedback_text"></textarea>
+                      </div>
+                    <button type="submit" class="btn btn-primary">Відправити відгук</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock content %}

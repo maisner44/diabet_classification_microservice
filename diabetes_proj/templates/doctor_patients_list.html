@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<script src="{% static 'js/doctor_profile.js' %}"></script>
+{% endblock styles %}
+
+{% block content %}
+
+<section id="section" class="my-3">
+    <div class="container">
+        <div class="row">
+            {% if is_doctor %}
+            <div class="col-md-2 border">
+                <aside>
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="{% url 'doctor_profile' pk=user.pk %}" class="profile-link">Ваш профіль</a></li>
+                        <li class="list-group-item active"><a href="{% url 'patient_list' %}" class="profile-link">Пацієнти</a></li>
+                        <li class="list-group-item">
+                            <a href="#" class="profile-link">Повідомлення</a>
+                            <span class="badge text-bg-primary rounded-pill"></span>
+                        </li>
+                    </ul>
+                </aside>
+            </div>
+            {% endif %}
+            <div class="col-md-10 border">
+                {% for patient in patient_list %}
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{{ patient.avatar.url }}" class="img-fluid rounded-start" alt="аватар пацієнта">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ patient.last_name }} {{ patient.first_name }} {{ patient.patronymic }}</h5>
+                                    <p class="card-text">Вік: {{ patient.age }}</p>
+                                    <p class="card-text">Тип цукрового діабету: {{ patient.diabet_type }}</p>
+                                    <p class="card-text">Дата прив'язки до лікаря: {{ patient.connect_to_doctor_date }}</p>
+                                    <a href="{% url 'patient_profile' pk=patient.id %}" class="btn btn-primary">Профіль пацієнта</a>
+                                    <a href="#" class="btn btn-secondary">Карточка пацієнта</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="row">
+                    <div class="col-12 mx-auto text-center fs-4">
+                        <span class="step-links">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1">&laquo; Перша</a>
+                                <a href="?page={{ page_obj.previous_page_number }}">Попередня</a>
+                            {% endif %}
+                    
+                            <span class="current">
+                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                            </span>
+                    
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}">Наступна</a>
+                                <a href="?page={{ page_obj.paginator.num_pages }}"> {{ page_obj.paginator.num_pages }} &raquo;</a>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User, AbstractUser, Group
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 from datetime import datetime
 import uuid
 from django.contrib.auth.hashers import make_password
@@ -103,7 +104,6 @@ class Doctor(DiaScreenUser):
         functional when this model is save to database
         """
         super().save(*args, **kwargs)
-
         group = Group.objects.get(name='Doctors')
         group.user_set.add(self)
     
@@ -149,8 +149,11 @@ class Patient(DiaScreenUser):
         """
         if self.weight and self.height:
             self.body_mass_index = self.calculate_BMI()
+        if self.diabet_type == self.FIRST_TYPE:
+            self.is_oninsuline = True
+        if self.doctor_id and not self.connect_to_doctor_date:
+            self.connect_to_doctor_date = timezone.now()
         super().save(*args, **kwargs)
-       
         group = Group.objects.get(name='Patients')
         group.user_set.add(self)
 

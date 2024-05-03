@@ -1,0 +1,93 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock styles %}
+
+
+{% block content %}
+
+<section id="section" class="my-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 border border-primary">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="{{ patient.avatar.url }}" class="profile-img" alt="аватар пацієнта">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row align-items-center my-3">
+                            <div class="col-md-8">
+                                <h2>{{ patient.last_name }} {{ patient.first_name }}  {{ patient.patronymic }}</h2>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="#" class="btn btn-primary">Ред</a>
+                            </div>
+                        </div>
+                        <p class="fs-5"><span class="fw-semibold">Тип діабету:</span> {{ patient.diabet_type }}</p>
+                        <p class="fs-5"><span class="fw-semibold">Стать:</span> {{ patient.sex }}</p>
+                        <p class="fs-5"><span class="fw-semibold">Вік:</span> {{ patient.age }} років</p>
+                        <p class="fs-5"><span class="fw-semibold">Номер телефону:</span> {{ patient.phone_number }}</p>
+                        <p class="fs-5"><span class="fw-semibold">Електронна пошта:</span> {{ patient.email }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="section" class="my-3 doctor__section"></section>
+    <div class="container">
+        <h2 class="text-center my-3">Ваш лікар-ендокринолог</h2><hr>
+        <div class="row">
+            {% if patient.doctor_id is None %}
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12">
+                        <h5 class="text-center">У вас ще немає прив'язаного лікаря</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mx-auto">
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" placeholder="Введіть код лікаря" aria-label="Введіть код лікаря" aria-describedby="button-addon2" name="unique_connect_token" required>
+                                    <button class="btn btn-primary" type="submit" id="button-addon2">Прив'язати лікаря</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12 mb-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="{{ patient.doctor_id.avatar.url }}" class="profile__img" alt="аватар доктора">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row align-items-center my-3">
+                            <div class="col-md-8">
+                                <h2>{{ patient.doctor_id.last_name }} {{ patient.doctor_id.first_name }}  {{ patient.doctor_id.patronymic }}</h2>
+                            </div>
+                        </div>
+                        <p class="fs-5"><span class="fw-semibold">Категорія:</span> {{ patient.doctor_id.category }}</p>
+                        <p class="fs-5"><span class="fw-semibold">Стаж лікаря:</span> {{ patient.doctor_id.work_experience }}</p>
+                        <p class="fs-5"><span class="fw-semibold">Номер телефону:</span> {{ patient.doctor_id.phone_number }}</p>
+                        <p class="fs-5"><span class="fw-semibold">Електронна пошта:</span> {{ patient.doctor_id.email }}</p>
+                        <div class="row my-5">
+                            <div class="col-auto">
+                                <a href="{% url 'doctor_profile' pk=patient.doctor_id.id %}" class="btn btn-primary">Профіль лікаря</a>
+                                <a href="" class="btn btn-primary">Написати лікарю</a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

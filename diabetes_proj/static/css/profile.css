@@ -1,0 +1,49 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+
+#section {
+    flex: 1;
+}
+
+
+.profile-link{
+    text-decoration: none;
+    color: black;
+}
+
+.profile__img{
+    width: 400px;
+    height: 400px;
+}
+
+footer {
+    margin-top: auto;
+}
+
+.org-img {
+    width: 200px;
+    height: auto; 
+}
+
+.feedback-form-section input[type="text"],
+.feedback-form-section textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.hidden-text{
+    display: none;
+}
+
