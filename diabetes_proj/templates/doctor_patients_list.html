@@ -36,16 +36,35 @@
                             <div class="col-md-8">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ patient.last_name }} {{ patient.first_name }} {{ patient.patronymic }}</h5>
-                                    <p class="card-text">Возраст: {{ patient.age }}</p>
-                                    <p class="card-text">Тип сахарного диабета: {{ patient.diabet_type }}</p>
-                                    <p class="card-text">Дата привязки к врачу: {{ patient.connect_to_doctor_date }}</p>
-                                    <a href="#" class="btn btn-primary">Профиль пациента</a>
-                                    <a href="#" class="btn btn-secondary">Карточка пациента</a>
+                                    <p class="card-text">Вік: {{ patient.age }}</p>
+                                    <p class="card-text">Тип цукрового діабету: {{ patient.diabet_type }}</p>
+                                    <p class="card-text">Дата прив'язки до лікаря: {{ patient.connect_to_doctor_date }}</p>
+                                    <a href="{% url 'patient_profile' pk=patient.id %}" class="btn btn-primary">Профіль пацієнта</a>
+                                    <a href="#" class="btn btn-secondary">Карточка пацієнта</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
+                <div class="row">
+                    <div class="col-12 mx-auto text-center fs-4">
+                        <span class="step-links">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1">&laquo; Перша</a>
+                                <a href="?page={{ page_obj.previous_page_number }}">Попередня</a>
+                            {% endif %}
+                    
+                            <span class="current">
+                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                            </span>
+                    
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}">Наступна</a>
+                                <a href="?page={{ page_obj.paginator.num_pages }}"> {{ page_obj.paginator.num_pages }} &raquo;</a>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

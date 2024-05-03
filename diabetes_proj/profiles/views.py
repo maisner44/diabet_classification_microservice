@@ -84,7 +84,7 @@ class PatientProfile(generic.DetailView, UserRoleMixin):
 
 class DoctorsPatientList(generic.ListView, UserRoleMixin):
     model = Patient
-    paginate_by = 5
+    paginate_by = 3
     template_name = 'doctor_patients_list.html'
     context_object_name = 'patient_list'
     

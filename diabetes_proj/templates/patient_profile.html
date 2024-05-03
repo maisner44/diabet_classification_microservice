@@ -21,10 +21,6 @@
                     <div class="col-md-8">
                         <div class="row align-items-center my-3">
                             <div class="col-md-8">
-                                {% if user.is_authenticated %}
-                                <h2>Перемога</h2>
-                                <h2>{{ user.pk }}</h2>
-                                {% endif %}
                                 <h2>{{ patient.last_name }} {{ patient.first_name }}  {{ patient.patronymic }}</h2>
                             </div>
                             <div class="col-md-4">
