@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'login',
     'doctor_search',
     'profiles',
+    'blog',
     'debug_toolbar',
 ]
 
