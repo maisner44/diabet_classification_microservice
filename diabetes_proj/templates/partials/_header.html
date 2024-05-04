@@ -37,8 +37,12 @@
                               <a class="btn btn-primary header__button" href="{% url 'patient_profile' pk=user.pk %}">
                                   Профіль
                               </a>
+                              <a class="btn btn-primary header__button" href="{% url 'patient_profile' pk=user.pk %}">
+                                Картка
+                              </a>
                               {% endif %}
                         </li>
+                        {% if user.is_authenticated %}
                         <li class="nav-btn">
                           <form action="{% url 'logout' %}" method="post">
                             {% csrf_token %}
@@ -47,6 +51,7 @@
                             </button>
                           </form>
                         </li>
+                        {% endif %}
                     </ul>
                 </div>
             </nav>
