@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/info.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<section id="section" class="my-4">
+    <div class="container">
+        {% if is_admin %}
+        <div class="row my-3">
+            <div class="col-12 text-end">
+                <a href="#article_creation" class="btn btn-primary px-5 mx-5" data-bs-toggle="modal" data-bs-target="#article_creation">Додати нову статтю</a>
+            </div>
+            <div class="modal fade" id="article_creation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="article_creation_label">Додати нову статтю</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ article_creation_form.as_p }}
+                                <button type="submit" class="btn btn-primary">Зберегти</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <div class="row card_container">
+            {% for article in article_list %}
+            <div class="col-md-4">
+                <div class="card mx-auto" style="width: 27rem;">
+                    <img src="{{ article.get_image_url }}" class="card-img-top" alt="картинка статті">
+                    <div class="card-body">
+                        <h5 class="fs-5">{{ article.article_short_name }}</h5>
+                        <p>Автор статті: {{ article.article_author }}</p>
+                        <p>{{ article.article_description }}</p>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <a href="{% url 'article_detail' pk=article.id %}" class="btn btn-primary card_btn">Перейти до статті</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if forloop.counter|divisibleby:2 and not forloop.last %}
+        </div><div class="row">
+        {% endif %}
+        {% endfor %}
+    </div>
+    <div class="row my-5">
+        <div class="col-12 mx-auto text-center fs-4">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+        
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+</section>
+{% endblock content %}

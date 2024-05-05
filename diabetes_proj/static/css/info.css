@@ -1,0 +1,20 @@
+.modal-body input[type="text"],
+.modal-body textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.card{
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.card:hover{
+    transform: translateY(-15px); 
+    box-shadow: 0 20px 8px 10px rgba(0, 0, 0, 0.1);
+}
+
