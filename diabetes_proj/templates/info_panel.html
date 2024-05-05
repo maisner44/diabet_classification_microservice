@@ -9,7 +9,7 @@
 {% block content %}
 <section id="section" class="my-4">
     <div class="container">
-        {% if not is_admin %}
+        {% if is_admin %}
         <div class="row my-3">
             <div class="col-12 text-end">
                 <a href="#article_creation" class="btn btn-primary px-5 mx-5" data-bs-toggle="modal" data-bs-target="#article_creation">Додати нову статтю</a>
