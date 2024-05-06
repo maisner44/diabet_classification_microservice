@@ -7,17 +7,21 @@
             </div>
             <div class="col-md-3">
                 <h3 class="fs-4 mt-2">Навігація</h3><hr>
-                <p><a class="footer__link" href="#">Головна</a></p>
-                <p><a class="footer__link" href="#">Інформація</a></p>
-                <p><a class="footer__link" href="#">Лікарі</a></p>
+                <p><a class="footer__link" href="{% url 'home' %}">Головна</a></p>
+                <p><a class="footer__link" href="{% url 'information' %}">Інформація</a></p>
+                <p><a class="footer__link" href="{% url 'doctors_search' %}">Лікарі</a></p>
                 <p><a class="footer__link" href="#">API</a></p>
             </div>
             <div class="col-md-3">
                 <h3 class="fs-4 mt-2">Аккаунт</h3><hr>
+                {% if user.is_authenticated %}
                 <p><a class="footer__link" href="#">Профіль</a></p>
-                <p><a class="footer__link" href="#">Аутентифікація пацієнта</a></p>
-                <p><a class="footer__link" href="#">Аутентифікація лікаря</a></p>
-                <p><a class="footer__link" href="#">Вийти з аккаунту</a></p>
+                {% else %}
+                <p><a class="footer__link" href="{% url 'login' %}">Логін</a></p>
+                {% endif %}
+                <p><a class="footer__link" href="{% url 'patient_register' %}">Реєстрація пацієнта</a></p>
+                <p><a class="footer__link" href="{% url 'doctor_register' %}">Реєстрація лікаря</a></p>
+                <p><a class="footer__link" href="{% url 'logout' %}">Вийти з аккаунту</a></p>
             </div>
             <div class="col-md-3">
                 <h3 class="fs-4 mt-2">Додатково</h3><hr>

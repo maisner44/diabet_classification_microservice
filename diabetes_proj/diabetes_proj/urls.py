@@ -27,5 +27,6 @@ urlpatterns = [
     path('doctor-search/', include('doctor_search.urls')),
     path('profile/', include('profiles.urls')),
     path('blog/', include('blog.urls')),
+    path('card/', include('patient_card.urls')),
     path("__debug__/", include("debug_toolbar.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

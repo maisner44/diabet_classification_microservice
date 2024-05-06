@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/card.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<section id="section"  class="my-3">
+    <div class="container">
+        <div class="row card__section">
+            <div class="tab__block">
+                <ul class="nav nav-tabs" id="cardTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link tab__link  active" id="glucose-tab" type="button" data-bs-toggle="tab" data-bs-target="#glucose-tab-pane" aria-controls="glucose-tab-pane" aria-selected="true">Active</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link tab__link" id="eat-tab" type="button" data-bs-toggle="tab" data-bs-target="#eat-tab-pane" aria-controls="eat-tab-pane" aria-selected="false">Link</button>
+                    </li>
+                    <li class="nav-item" role="presentation"> 
+                      <button class="nav-link tab__link" id="physic-tab" type="button" data-bs-toggle="tab" data-bs-target="#physic-tab-pane" aria-controls="physic-tab-pane" aria-selected="false">Link</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link tab__link" id="analysis-tab" type="button" data-bs-toggle="tab" data-bs-target="#analysis-tab-pane" aria-controls="analysis-tab-pane" aria-selected="false">Disabled</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-12 border render__section">
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="glucose-tab-pane" role="tabpanel" aria-labelledby="glucose-tab" tabindex="0">
+                        <div class="row my-5">
+                            <div class="col-12 text-center">
+                                <button class="btn btn-primary rounded-circle add_record__btn" data-bs-toggle="modal" data-bs-target="#article_creation">
+                                    <img src="{% static 'img/svg/plus.svg' %}" alt="додати запис">
+                                </button>
+                                <div class="modal fade" id="article_creation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="article_creation_label">Додати новий запис</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="post" enctype="multipart/form-data">
+                                                    
+                                                    <button type="submit" class="btn btn-primary">Зберегти</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="eat-tab-pane" role="tabpanel" aria-labelledby="eat-tab" tabindex="0">
+                        <div class="row my-5">
+                            <div class="col-12 text-center">
+                                <button class="btn btn-primary rounded-circle add_record__btn" data-bs-toggle="modal" data-bs-target="#glucose">
+                                    <img src="{% static 'img/svg/plus.svg' %}" alt="додати запис">
+                                </button>
+                                <div class="modal fade" id="glucose" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="article_creation_label">Додати новий запис по замірам глюкози</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="post" enctype="multipart/form-data">
+                                                    
+                                                    <button type="submit" class="btn btn-primary">Зберегти</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="physic-tab-pane" role="tabpanel" aria-labelledby="physic-tab" tabindex="0">...</div>
+                    <div class="tab-pane fade" id="analysis-tab-pane" role="tabpanel" aria-labelledby="analysis-tab" tabindex="0">...</div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'js/card_tabs.js' %}"></script>
+{% endblock scripts %}

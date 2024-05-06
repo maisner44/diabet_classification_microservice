@@ -32,6 +32,11 @@
                         <p class="fs-5"><span class="fw-semibold">Вік:</span> {{ patient.age }} років</p>
                         <p class="fs-5"><span class="fw-semibold">Номер телефону:</span> {{ patient.phone_number }}</p>
                         <p class="fs-5"><span class="fw-semibold">Електронна пошта:</span> {{ patient.email }}</p>
+                        <div class="row btn__row my-3">
+                            <div class="col-md-6">
+                                <a href="{% url 'patient_card' patient_id=patient.id %}" class="btn btn-primary">Картка пацієнта</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

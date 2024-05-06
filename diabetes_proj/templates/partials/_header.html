@@ -37,8 +37,8 @@
                               <a class="btn btn-primary header__button" href="{% url 'patient_profile' pk=user.pk %}">
                                   Профіль
                               </a>
-                              <a class="btn btn-primary header__button" href="{% url 'patient_profile' pk=user.pk %}">
-                                Картка
+                              <a class="btn btn-primary header__button" href="{% url 'patient_card' patient_id=user.pk %}">
+                                  Картка
                               </a>
                               {% endif %}
                         </li>
