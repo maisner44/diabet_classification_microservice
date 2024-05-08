@@ -40,7 +40,7 @@
                                     <p class="card-text">Тип цукрового діабету: {{ patient.diabet_type }}</p>
                                     <p class="card-text">Дата прив'язки до лікаря: {{ patient.connect_to_doctor_date }}</p>
                                     <a href="{% url 'patient_profile' pk=patient.id %}" class="btn btn-primary">Профіль пацієнта</a>
-                                    <a href="#" class="btn btn-secondary">Карточка пацієнта</a>
+                                    <a href="{% url 'patient_card' patient_id=patient.id %}" class="btn btn-secondary">Карточка пацієнта</a>
                                 </div>
                             </div>
                         </div>

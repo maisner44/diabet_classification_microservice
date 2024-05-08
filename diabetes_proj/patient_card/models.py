@@ -1,5 +1,7 @@
+from django.utils import timezone
 from django.db import models
 from login.models import Patient
+
 
 class GlucoseMeasurement(models.Model):
 
@@ -19,5 +21,9 @@ class GlucoseMeasurement(models.Model):
 
     glucose = models.DecimalField(max_digits=4, decimal_places=2, blank=False, null=False)
     glucose_measurement_category = models.CharField(choices=CATEGORY, blank=True, null=True)
-    date_of_measurement = models.DateTimeField(auto_now_add=True, db_index=True)
+    date_of_measurement = models.DateField()
+    time_of_measurement = models.TimeField(default=timezone.now)
     patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.glucose) + " Категорія: " + self.glucose_measurement_category

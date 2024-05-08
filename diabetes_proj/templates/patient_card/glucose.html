@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/card.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<section id="section"  class="my-3">
+    <div class="container">
+        {% if is_patient %}
+        <div class="row my-3">
+          <div class="col-12 text-end">
+            <a href="#meas_creation" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#meas_creation">Додати новий запис</a>
+          </div>
+          <div class="modal fade" id="meas_creation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="article_creation_label">Додавання нового запису</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" novalidate>
+                            {% csrf_token %}
+                            {{ glucose_form.as_p }}
+                            <button type="submit" class="btn btn-primary">Зберегти</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-1 align-self-start text-start">
+                <ul class="nav flex-column">
+                    <li class="nav-item card_nav__item">
+                      <a class="nav-link card__link active" aria-current="page" href="#">Заміри глюкози</a>
+                    </li>
+                    <li class="nav-item card_nav__item">
+                      <a class="nav-link card__link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item card_nav__item">
+                      <a class="nav-link card__link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item card_nav__item">
+                      <a class="nav-link card__link" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-11 border meas__section">
+              <div class="row my-3">
+                {% for date, measurements in page_obj %}
+                <div class="col-md-1">
+                  <div class="dropdown">
+                    <a class="btn btn-primary" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      {{ date }}
+                    </a>
+                    <ul class="dropdown-menu meas__list">
+                        <table class="table text-center">
+                          <thead>
+                              <tr>
+                                <th scope="col">Категорія</th>
+                                <th scope="col">Час заміру</th>
+                                <th scope="col">Глюкоза (ммоль/л)</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              {% for meas in measurements %}
+                              <tr>
+                                <td>
+                                  <div class="category-block mb-3">
+                                    <span>{{ meas.glucose_measurement_category }}</span>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="time-block mb-3">
+                                    <span>{{ meas.time_of_measurement }}</span>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="glucose-block mb-3">
+                                    <span>{{ meas.glucose }}</span>
+                                  </div>
+                                </td>
+                              </tr>
+                              {% endfor %}
+                          </tbody>
+                        </table>
+                    </ul>
+                  </div>
+                </div>
+                {% if forloop.counter|divisibleby:12 and not forloop.last %}
+                </div><div class="row my-3">
+                {% endif %}
+                {% endfor %}
+              </div>
+              <div class="row">
+                  <div class="col-md-12">
+                      {% if page_obj.has_other_pages %}
+                          <nav aria-label="Page navigation">
+                              <ul class="pagination justify-content-center">
+                                  {% if page_obj.has_previous %}
+                                      <li class="page-item">
+                                          <a class="page-link" href="?page=1">&laquo;</a>
+                                      </li>
+                                      <li class="page-item">
+                                          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+                                      </li>
+                                  {% endif %}
+                                  <li class="page-item active" aria-current="page">
+                                      <span class="page-link">{{ page_obj.number }}</span>
+                                  </li>
+                                  {% if page_obj.has_next %}
+                                      <li class="page-item">
+                                          <a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+                                      </li>
+                                      <li class="page-item">
+                                          <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+                                      </li>
+                                  {% endif %}
+                              </ul>
+                          </nav>
+                      {% endif %}
+                  </div>
+              </div>
+          </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'js/glucose_card.js' %}"></script>
+{% endblock scripts %}

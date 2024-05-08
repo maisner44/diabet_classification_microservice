@@ -1,37 +1,77 @@
-.card__section{
-    height: 600px;
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+
+#section {
+    flex: 1;
+}
+
+.footer{
+    margin-top: auto;
+}
+
+.meas__section {
     background-color: bisque;
-    position: relative;
-    margin-top: 60px;
+    min-height: 800px;
 }
 
-.tab__block{
-    position: absolute;
-    left: 0;
-    top: -40px;
+.card_nav__item {
+    margin-bottom: 10px;
+    text-align: center;
 }
 
-.tab__link{
+.card__link {
+    display: block; 
+    padding: 10px; 
     background-color: #4169E1;
-    transition: transform 0.5s ease-in-out;
-    padding-bottom: 18px;
+    color: white;
+    text-decoration: none;
 }
 
-.tab__link:hover{
-    transform: translateY(-10px);
+.card__link:hover {
+    background-color: purple;
+    color: black;
 }
 
-.add_record__btn {
-    position: relative;
-    overflow: hidden;
-    transition: transform 1s ease-out;
-    transform-origin: center;
+.form-control {
+    margin-bottom: 15px;
 }
 
-.add_record__btn:hover {
-    transform: rotate(180deg);
+
+.meas__list{
+    margin-top: 5px;
+    width: 400px;
 }
 
-.add_record__btn img {
-    transition: transform 1s ease-out;
+.category-block {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #ffcc00;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.glucose-block {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #00aaff;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.time-block {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #ff6666;
+    border-radius: 5px;
+    margin-right: 10px;
 }
