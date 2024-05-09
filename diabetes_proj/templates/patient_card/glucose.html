@@ -39,10 +39,10 @@
                       <a class="nav-link card__link active" aria-current="page" href="#">Заміри глюкози</a>
                     </li>
                     <li class="nav-item card_nav__item">
-                      <a class="nav-link card__link" href="#">Записи їжі та калорійності</a>
+                      <a class="nav-link card__link" href="#">Записи їжі та інсуліну</a>
                     </li>
                     <li class="nav-item card_nav__item">
-                      <a class="nav-link card__link" href="#">Фізична активність</a>
+                      <a class="nav-link card__link" href="{% url 'patient_physics' patient_id=patient_id %}">Фізична активність</a>
                     </li>
                     <li class="nav-item card_nav__item">
                       <a class="nav-link card__link" aria-disabled="true">Disabled</a>
@@ -57,7 +57,7 @@
                     <a class="btn btn-primary dropdown_btn" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       {{ date }}
                     </a>
-                    <ul class="dropdown-menu meas__list dropdown-menu-end">
+                    <ul class="dropdown-menu meas_glucose__list dropdown-menu-end">
                         <table class="table text-center">
                           <thead>
                               <tr>
@@ -132,5 +132,6 @@
 {% endblock content %}
 
 {% block scripts %}
+<script src="{% static 'js/dropdown_hover.js' %}"></script>
 <script src="{% static 'js/glucose_card.js' %}"></script>
 {% endblock scripts %}

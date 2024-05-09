@@ -9,11 +9,6 @@ body {
     flex-direction: column;
 }
 
-
-#section {
-    flex: 1;
-}
-
 .footer{
     margin-top: auto;
 }
@@ -40,7 +35,7 @@ body {
 }
 
 .card__link:hover {
-    background-color: purple;
+    background-color: rgb(68, 224, 6);
     color: black;
 }
 
@@ -56,52 +51,53 @@ body {
     width: 100%;
 }
 
-.meas__list{
-    margin-top: 5px;
-    width: 350px;
+.meas_glucose__list{
+    min-width: 350px;
+    max-height: 300px;
     overflow: hidden;
+    overflow-y: auto;
     flex-wrap: wrap;
 }
 
-.category-block, .time-block, .glucose-block, .bad{
+.meas_fit__list{
+    min-width: 600px;
+    max-height: 300px;
+    overflow: hidden;
+    overflow-y: auto;
+    flex-wrap: wrap;
+}
+
+.meas__block{
+    background-color: #4169E1;
+}
+
+.meas__block, .category-block, .time-block, .glucose-block, .bad{
     display: flex;
     justify-content: center;
     align-items: center;
     height: 40px;
     width: 100%;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-right: 10px;
+    color: #FFF;
 }
 
 .category-block {
-    padding: 5px 10px;
     background-color: #4169E1;
-    border-radius: 5px;
-    margin-right: 10px;
     margin-left: 10px;
-    color: #FFF;
 }
 
 .glucose-block {
-    padding: 5px 10px;
     background-color: #4169E1;
-    border-radius: 5px;
-    margin-right: 10px;
-    color: #FFF;
 }
 
 .time-block {
-    padding: 5px 10px;
     background-color: #eeaf5d;
-    border-radius: 5px;
-    margin-right: 10px;
-    color: #FFF;
 }
 
 .bad{
-    padding: 5px 10px;
     background-color: #ff6666;
-    border-radius: 5px;
-    margin-right: 10px;
-    color: #FFF;
 }
 
 @media (max-width: 768px){

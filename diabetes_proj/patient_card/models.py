@@ -1,3 +1,4 @@
+from typing import Iterable
 from django.utils import timezone
 from django.db import models
 from login.models import Patient
@@ -37,7 +38,7 @@ class TypeOfActivity(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False)
 
     def __str__(self):
-        return 'Тип активності: ' + self.name
+        return self.name
     
     class Meta:
         verbose_name = 'Тип активності'
@@ -48,7 +49,8 @@ class PhysicalActivityMeasurement(models.Model):
     
     number_of_approaches = models.IntegerField(blank=True, null=False)
     type_of_activity = models.ForeignKey(TypeOfActivity, on_delete=models.PROTECT)
-    time_of_activity = models.CharField(max_length=10, blank=True, null=True)
+    date_of_measurement = models.DateField(default=timezone.now)
+    time_of_activity = models.TimeField(default=timezone.now)
     commentary = models.TextField(max_length=1000, blank=True, null=True)
     patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
 
@@ -58,4 +60,73 @@ class PhysicalActivityMeasurement(models.Model):
     class Meta:
         verbose_name = 'Замір фізичної активності'
         verbose_name_plural = 'Заміри фізичної активності'
+
+
+class FoodItem(models.Model):
+
+    name = models.CharField(max_length=200, blank=False, null=False, db_index=True, help_text='Назва їжі')
+    proteins = models.DecimalField(max_digits=6, decimal_places=2)
+    fats = models.DecimalField(max_digits=6, decimal_places=2)
+    carbohydrates = models.DecimalField(max_digits=6, decimal_places=2)
+
+    def __str__(self):
+        return f"Їжа: {self.name}, білки - {self.proteins}, жири - {self.fats}, вуглеводи - {self.carbohydrates}"
+    
+    class Meta:
+        verbose_name = 'Порція їжі'
+        verbose_name_plural = 'Порції їжі'
+
+
+class FoodMeasurement(models.Model):
+
+    insuline_dose_before = models.DecimalField(max_digits=5, decimal_places=2, blank=False, null=False)
+    insuline_dose_after = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    date_of_measurement = models.DateField(default=timezone.now)
+    time_of_eating = models.TimeField(default=timezone.now)
+    bread_unit = models.IntegerField(blank=False, null=False)
+    food_items = models.ManyToManyField(FoodItem)
+    patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
+
+    def calculate_bread_unit(self):
+        """
+        Calculate bread unit (10-12g carbohydrate) for calculate insuline dose
+        """
+        if self.food_items:
+            total_carbohydrates = 0
+            for item in self.food_items.all():
+                total_carbohydrates += item.carbohydrates
+            bread_unit = total_carbohydrates/12
+            return bread_unit
+        else:
+            return 0
+    
+    def calculate_dose(self):
+        """
+        Approximate calculation of insulin dose based on bread units
+        """
+        if self.bread_unit and self.insuline_dose_after is None:
+            self.insuline_dose_after = self.bread_unit
+    
+    def save(self, *args, **kwargs):
+        """
+        Overriding save method for init bread_unit after save measurement
+        """
+        self.bread_unit = self.calculate_bread_unit()
+        self.insuline_dose_after = self.calculate_dose()
+        super().save(*args, **kwargs)
+
+
+    def __str__(self):
+        return f'''
+            Дата прийому їжі - {self.date_of_measurement}, час прийому - {self.time_of_eating} |
+            Кількість хлібних одиниць - {self.bread_unit}, приблизна доля інсуліну - {self.insuline_dose_after}
+        '''
+    
+    class Meta:
+        verbose_name = 'Порція їжі'
+        verbose_name_plural = 'Порції їжі'
+        
+        
+    
+
         

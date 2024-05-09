@@ -23,7 +23,7 @@
                     <div class="modal-body">
                         <form method="post" novalidate>
                             {% csrf_token %}
-                            {{ glucose_form.as_p }}
+                            {{ activity_form.as_p }}
                             <button type="submit" class="btn btn-primary">Зберегти</button>
                         </form>
                     </div>
@@ -36,10 +36,10 @@
             <div class="col-md-2 align-self-start text-start">
                 <ul class="nav flex-column">
                     <li class="nav-item card_nav__item">
-                      <a class="nav-link card__link" aria-current="page" href="#">Заміри глюкози</a>
+                      <a class="nav-link card__link" aria-current="page" href="{% url 'patient_card' patient_id=patient_id %}">Заміри глюкози</a>
                     </li>
                     <li class="nav-item card_nav__item">
-                      <a class="nav-link card__link" href="#">Записи їжі та калорійності</a>
+                      <a class="nav-link card__link" href="#">Записи їжі та інсуліну</a>
                     </li>
                     <li class="nav-item card_nav__item">
                       <a class="nav-link card__link active" href="#">Фізична активність</a>
@@ -57,13 +57,13 @@
                     <a class="btn btn-primary dropdown_btn" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       {{ date }}
                     </a>
-                    <ul class="dropdown-menu meas__list dropdown-menu-end">
+                    <ul class="dropdown-menu meas_fit__list dropdown-menu-end">
                         <table class="table text-center">
                           <thead>
                               <tr>
                                 <th scope="col">Категорія</th>
-                                <th scope="col">Час заміру</th>
-                                <th scope="col">Глюкоза (ммоль/л)</th>
+                                <th scope="col">Час</th>
+                                <th scope="col">Підходів</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -71,18 +71,23 @@
                               <tr>
                                 <td>
                                   <div class="category-block">
-                                    <span>{{ meas.glucose_measurement_category }}</span>
+                                    <span>{{ meas.type_of_activity }}</span>
                                   </div>
                                 </td>
                                 <td>
                                   <div class="time-block">
-                                    <span>{{ meas.time_of_measurement }}</span>
+                                    <span>{{ meas.time_of_activity }}</span>
                                   </div>
                                 </td>
                                 <td>
-                                  <div class="glucose-block">
-                                    <span class="glucose_value">{{ meas.glucose }}</span>
+                                  <div class="meas__block">
+                                    <span>{{ meas.number_of_approaches }}</span>
                                   </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td colspan="3">
+                                    <span>{{ meas.commentary }}</span>
                                 </td>
                               </tr>
                               {% endfor %}
@@ -132,5 +137,5 @@
 {% endblock content %}
 
 {% block scripts %}
-<script src="{% static 'js/glucose_card.js' %}"></script>
+<script src="{% static 'js/dropdown_hover.js' %}"></script>
 {% endblock scripts %}

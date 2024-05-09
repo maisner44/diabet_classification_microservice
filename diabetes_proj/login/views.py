@@ -10,7 +10,7 @@ from .forms import PatientForm, AdressForm, DoctorForm
 def registration(request):
     return render(request, 'login/registration.html')
 
-# Create your views here.
+
 def register_patient(request):
     if request.method == "POST":
         patient_form = PatientForm(request.POST)
