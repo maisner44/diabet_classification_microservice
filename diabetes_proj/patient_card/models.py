@@ -27,3 +27,35 @@ class GlucoseMeasurement(models.Model):
 
     def __str__(self):
         return str(self.glucose) + " Категорія: " + self.glucose_measurement_category
+    
+    class Meta:
+        verbose_name = 'Замір глюкози'
+        verbose_name_plural = 'Заміри глюкози'
+
+
+class TypeOfActivity(models.Model):
+    name = models.CharField(max_length=100, blank=False, null=False)
+
+    def __str__(self):
+        return 'Тип активності: ' + self.name
+    
+    class Meta:
+        verbose_name = 'Тип активності'
+        verbose_name_plural = 'Типи активності'
+
+
+class PhysicalActivityMeasurement(models.Model):
+    
+    number_of_approaches = models.IntegerField(blank=True, null=False)
+    type_of_activity = models.ForeignKey(TypeOfActivity, on_delete=models.PROTECT)
+    time_of_activity = models.CharField(max_length=10, blank=True, null=True)
+    commentary = models.TextField(max_length=1000, blank=True, null=True)
+    patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.patient_id} виконав {self.number_of_approaches} підходів у - {self.type_of_activity.name}'
+    
+    class Meta:
+        verbose_name = 'Замір фізичної активності'
+        verbose_name_plural = 'Заміри фізичної активності'
+        
