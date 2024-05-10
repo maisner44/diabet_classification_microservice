@@ -23,7 +23,7 @@
                     <div class="modal-body">
                         <form method="post" novalidate>
                             {% csrf_token %}
-                            {{ glucose_form.as_p }}
+                            {{ insuline_form.as_p }}
                             <button type="submit" class="btn btn-primary">Зберегти</button>
                         </form>
                     </div>
@@ -68,7 +68,7 @@
                               <tr>
                                 <th scope="col">Категорія</th>
                                 <th scope="col">Час заміру</th>
-                                <th scope="col">Глюкоза (ммоль/л)</th>
+                                <th scope="col">Кількість ОД</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -76,17 +76,17 @@
                               <tr>
                                 <td>
                                   <div class="category-block">
-                                    <span>{{ meas.glucose_measurement_category }}</span>
+                                    <span>{{ meas.category }}</span>
                                   </div>
                                 </td>
                                 <td>
                                   <div class="time-block">
-                                    <span>{{ meas.time_of_measurement }}</span>
+                                    <span>{{ meas.time }}</span>
                                   </div>
                                 </td>
                                 <td>
                                   <div class="glucose-block">
-                                    <span class="glucose_value">{{ meas.glucose }}</span>
+                                    <span class="glucose_value">{{ meas.insuline_dose }}</span>
                                   </div>
                                 </td>
                               </tr>
@@ -138,5 +138,4 @@
 
 {% block scripts %}
 <script src="{% static 'js/dropdown_hover.js' %}"></script>
-<script src="{% static 'js/glucose_card.js' %}"></script>
 {% endblock scripts %}

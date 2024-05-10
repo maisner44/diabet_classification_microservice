@@ -13,6 +13,10 @@ body {
     margin-top: auto;
 }
 
+.attention{
+    color: red;
+}
+
 .meas__section {
     display: flex;
     flex-direction: column;

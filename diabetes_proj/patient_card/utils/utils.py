@@ -1,4 +1,4 @@
-def groupe_by_date(measurements):
+def group_by_date(measurements):
     grouped_dates = {}
     for measurement in measurements:
         date_key = measurement.date_of_measurement

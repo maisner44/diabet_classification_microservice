@@ -10,6 +10,17 @@
     <div class="container">
         {% if is_patient %}
         <div class="row my-3">
+          <div class="col-12 text-center">
+              <h3>Примітка</h3>
+              <p class="fs-4">
+                На даній сторінці розраховується <strong class="attention">ПРИБЛИЗНА</strong> доза інсуліну для компенсації вуглеводів
+              </p>
+              <p class="fs-4">
+                Розрахунок йде за формулою 1 ХО (хлібна одиниця) - 12г вуглеводів. 1 ОД інсуліну = 1 ХО
+              </p>
+          </div>
+        </div>
+        <div class="row my-3">
           <div class="col-12 text-end">
             <a href="#meas_creation" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#meas_creation">Додати новий запис</a>
           </div>
@@ -21,11 +32,19 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form method="post" novalidate>
-                            {% csrf_token %}
-                            {{ glucose_form.as_p }}
-                            <button type="submit" class="btn btn-primary">Зберегти</button>
-                        </form>
+                      <form method="post" id="food-measurement-form">
+                        {% csrf_token %}
+                        {{ food_measurement.as_p }}
+                        <div id="food-item-forms">
+                            {% for form in food_item_forms %}
+                                <div class="food-item-form">
+                                    {{ form.as_p }}
+                                </div>
+                            {% endfor %}
+                        </div> 
+                        <button class="btn btn-primary" type="button" id="add-food-item-btn">Додати страву</button>
+                        <button class="btn btn-primary" type="submit">Зробити запис</button>
+                      </form>
                     </div>
                 </div>
             </div>
@@ -36,7 +55,7 @@
             <div class="col-md-2 align-self-start text-start">
                 <ul class="nav flex-column">
                     <li class="nav-item card_nav__item">
-                      <a class="nav-link card__link active" aria-current="page" href="{% url 'patient_card' patient_id %}">Заміри глюкози</a>
+                      <a class="nav-link card__link active" aria-current="page" href="{% url 'patient_card' patient_id=patient_id %}">Заміри глюкози</a>
                     </li>
                     {% if is_oninsuline %}
                     <li class="nav-item card_nav__item">
@@ -66,9 +85,11 @@
                         <table class="table text-center">
                           <thead>
                               <tr>
-                                <th scope="col">Категорія</th>
-                                <th scope="col">Час заміру</th>
-                                <th scope="col">Глюкоза (ммоль/л)</th>
+                                <th scope="col">Прийом їжі</th>
+                                <th scope="col">Час прийому їжі</th>
+                                <th scope="col">ХО</th>
+                                <th scope="col">Доза інсуліну до їжі</th>
+                                <th scope="col">Приблизна доза компенсації</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -76,18 +97,35 @@
                               <tr>
                                 <td>
                                   <div class="category-block">
-                                    <span>{{ meas.glucose_measurement_category }}</span>
+                                    <span>{{ meas.category }}</span>
                                   </div>
                                 </td>
                                 <td>
                                   <div class="time-block">
-                                    <span>{{ meas.time_of_measurement }}</span>
+                                    <span>{{ meas.time_of_eating }}</span>
                                   </div>
                                 </td>
                                 <td>
-                                  <div class="glucose-block">
-                                    <span class="glucose_value">{{ meas.glucose }}</span>
+                                  <div class="meas__block">
+                                    <span>{{ meas.bread_unit }}</span>
                                   </div>
+                                </td>
+                                <td>
+                                  <div class="meas__block">
+                                    <span>{{ meas.insuline_dose_before }}</span>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="meas__block">
+                                    <span>{{ meas.insuline_dose_after }}</span>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td colspan="4">
+                                  {% for food in meas.food_items.all %}
+                                  <span>{{ food.name}},</span>
+                                  {% endfor %}
                                 </td>
                               </tr>
                               {% endfor %}
@@ -138,5 +176,5 @@
 
 {% block scripts %}
 <script src="{% static 'js/dropdown_hover.js' %}"></script>
-<script src="{% static 'js/glucose_card.js' %}"></script>
+<script src="{% static 'js/food.js' %}"></script> 
 {% endblock scripts %}

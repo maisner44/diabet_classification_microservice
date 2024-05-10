@@ -38,11 +38,16 @@
                     <li class="nav-item card_nav__item">
                       <a class="nav-link card__link" aria-current="page" href="{% url 'patient_card' patient_id=patient_id %}">Заміри глюкози</a>
                     </li>
+                    {% if is_oninsuline %}
                     <li class="nav-item card_nav__item">
-                      <a class="nav-link card__link" href="#">Записи їжі та інсуліну</a>
+                      <a class="nav-link card__link" aria-current="page" href="{% url 'patient_insuline' patient_id=patient_id %}">Записи інсуліну</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item card_nav__item">
+                      <a class="nav-link card__link" href="{% url 'patient_food' patient_id=patient_id %}">Записи по прийомам їжі та розрахунок ХО</a>
                     </li>
                     <li class="nav-item card_nav__item">
-                      <a class="nav-link card__link active" href="#">Фізична активність</a>
+                      <a class="nav-link card__link active" href="{% url 'patient_physics' patient_id=patient_id %}">Фізична активність</a>
                     </li>
                     <li class="nav-item card_nav__item">
                       <a class="nav-link card__link" aria-disabled="true">Disabled</a>

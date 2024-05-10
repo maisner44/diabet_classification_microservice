@@ -64,7 +64,7 @@ class PhysicalActivityMeasurement(models.Model):
 
 class FoodItem(models.Model):
 
-    name = models.CharField(max_length=200, blank=False, null=False, db_index=True, help_text='Назва їжі')
+    name = models.CharField(max_length=200, blank=False, null=False, db_index=True)
     proteins = models.DecimalField(max_digits=6, decimal_places=2)
     fats = models.DecimalField(max_digits=6, decimal_places=2)
     carbohydrates = models.DecimalField(max_digits=6, decimal_places=2)
@@ -79,11 +79,20 @@ class FoodItem(models.Model):
 
 class FoodMeasurement(models.Model):
 
+    CATEGORY = (
+        ('Сніданок', 'Сніданок'),
+        ('Перекус', 'Перекус'),
+        ('Обід', 'Обід'),
+        ('Другий перекус', 'Другий перекус'),
+        ('Вечеря', 'Вечеря'),
+    )
+
+    category = models.CharField(choices=CATEGORY, blank=False, null=False, default='Сніданок')
     insuline_dose_before = models.DecimalField(max_digits=5, decimal_places=2, blank=False, null=False)
     insuline_dose_after = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     date_of_measurement = models.DateField(default=timezone.now)
     time_of_eating = models.TimeField(default=timezone.now)
-    bread_unit = models.IntegerField(blank=False, null=False)
+    bread_unit = models.IntegerField(blank=True, null=True)
     food_items = models.ManyToManyField(FoodItem)
     patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
 
@@ -104,14 +113,14 @@ class FoodMeasurement(models.Model):
         """
         Approximate calculation of insulin dose based on bread units
         """
-        if self.bread_unit and self.insuline_dose_after is None:
-            self.insuline_dose_after = self.bread_unit
+        if self.bread_unit:
+            return self.bread_unit
     
+
     def save(self, *args, **kwargs):
         """
         Overriding save method for init bread_unit after save measurement
         """
-        self.bread_unit = self.calculate_bread_unit()
         self.insuline_dose_after = self.calculate_dose()
         super().save(*args, **kwargs)
 
@@ -123,9 +132,38 @@ class FoodMeasurement(models.Model):
         '''
     
     class Meta:
-        verbose_name = 'Порція їжі'
-        verbose_name_plural = 'Порції їжі'
-        
+        verbose_name = 'Замір їжі'
+        verbose_name_plural = 'Заміри їжі'
+
+
+class InsulineDoseMeasurement(models.Model):
+
+    CATEGORY = (
+        ('Натщесердце', 'Натщесердце'),
+        ('До сніданку', 'До сніданку'),
+        ('Після сніданку', 'Після сніданку'),
+        ('Перед перекусом', 'Перед перекусом'),
+        ('Після перекусу', 'Після перекусу'),
+        ('До обіду', 'До обіду'),
+        ('Після обіду', 'Після обіду'),
+        ('До вечері', 'До вечері'),
+        ('Після вечері', 'Після вечері'),
+        ('Перед сном', 'Перед сном'),
+        ('Інше', 'Інше'),
+    )
+
+    category = models.CharField(choices=CATEGORY, blank=False, null=False)
+    insuline_dose = models.DecimalField(max_digits=5, decimal_places=2, blank=False, null=False)
+    date_of_measurement = models.DateField(default=timezone.now)
+    time = models.TimeField(default=timezone.now)
+    patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return  f'Категорія: {self.category}, станом на {self.time} вкололи {self.insuline_dose} ОД інсуліну'
+    
+    class Meta:
+        verbose_name = 'Замір інсуліну'
+        verbose_name_plural = 'Заміри інсуліну'
         
     
 
