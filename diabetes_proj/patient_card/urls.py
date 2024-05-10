@@ -6,4 +6,5 @@ urlpatterns = [
     path('physics/<int:patient_id>', PhysicalMeasurementView.as_view(), name='patient_physics'),
     path('food/<int:patient_id>', FoodMeasurementView.as_view(), name='patient_food'),
     path('insuline-therapy/<int:patient_id>', InsulineDoseView.as_view(), name='patient_insuline'),
+    #path('analysis/<int:patient_id>', AnalysisLoadView.as_view(), name='patient_analysis'),
 ]

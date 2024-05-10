@@ -250,3 +250,4 @@ class InsulineDoseView(View, UserRoleMixin):
         else:
             context = self.get_context_data(patient_id)
             return render(request, self.template_name, context)
+        

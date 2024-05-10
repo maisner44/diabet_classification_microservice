@@ -164,7 +164,33 @@ class InsulineDoseMeasurement(models.Model):
     class Meta:
         verbose_name = 'Замір інсуліну'
         verbose_name_plural = 'Заміри інсуліну'
-        
+
+
+class AnalysType(models.Model):
+
+    CATEGORY = (
+        ('Загальний аналіз крові', 'Загальний аналіз крові'),
+        ('Загальний аналіз сечі', 'Загальний аналіз сечі'),
+        ('Аналіз крові на глюкозу', 'Аналіз крові на глюкозу'),
+        ('Аналіз крові на глікований гемоглобин', 'Аналіз крові на глікований гемоглобин'),
+        ('Аналіз С-пептид', 'Аналіз С-пептид'),
+        ('Комплексний аналіз "Ліпідограма" ', 'Комплексний аналіз "Ліпідограма"'),
+        ('Інше', 'Інше'),
+    )
+    name = models.CharField(choices=CATEGORY, blank=False, null=False, default='Інше')
+
+
+class Analysis(models.Model):
+    analysis = models.FileField(upload_to='patients-media/analysis')
+    patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    date_of_measurement = models.DateField(default=timezone.now)
+    analysis_type = models.ForeignKey(AnalysType, on_delete=models.PROTECT)
+
+    def get_file_url(self):
+        return self.analysis.url if self.analysis else None
     
+    class Meta:
+        verbose_name = 'Аналіз'
+        verbose_name_plural = 'Аналізи'
 
         

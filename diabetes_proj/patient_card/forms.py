@@ -104,3 +104,10 @@ class InsulineDoseForm(forms.ModelForm):
             field.widget.attrs.update({'class': 'form-control'})
             if field_name == 'date_of_measurement':
                 field.widget.input_type = 'date'
+
+
+#class AnalysisForm(forms.ModelForm):
+    #class Meta:
+        #model = Analysis
+        #fields = ["analysis"]
+        
