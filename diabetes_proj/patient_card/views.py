@@ -1,14 +1,14 @@
 
 from django.core.paginator import Paginator
 from django.forms import modelformset_factory
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, FileResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic, View
 from django.urls import reverse, reverse_lazy
 from login.models import Patient
 from profiles.mixins import UserRoleMixin
-from .models import GlucoseMeasurement, PhysicalActivityMeasurement, FoodMeasurement, FoodItem, InsulineDoseMeasurement
-from .forms import GlucoseMeasurementForm, PhysicalActivityForm, FoodMeasurementForm, FoodItemForm, InsulineDoseForm
+from .models import GlucoseMeasurement, PhysicalActivityMeasurement, FoodMeasurement, FoodItem, InsulineDoseMeasurement, Analysis, AnalysType
+from .forms import GlucoseMeasurementForm, PhysicalActivityForm, FoodMeasurementForm, FoodItemForm, InsulineDoseForm, AnalysisForm, AnalysisTypeForm
 from .utils.utils import group_by_date
 
 
@@ -251,3 +251,77 @@ class InsulineDoseView(View, UserRoleMixin):
             context = self.get_context_data(patient_id)
             return render(request, self.template_name, context)
         
+
+class AnalysisLoadView(View, UserRoleMixin):
+    model = Analysis
+    template_name = 'patient_card/analysis.html'
+    paginate_by = 8
+
+    def get_context_data(self, patient_id, **kwargs):
+        
+        is_patient, is_doctor = self.get_user_roles(self.request)
+        
+        if is_doctor:
+            analysis = Analysis.objects.filter(patient_id=patient_id).order_by('-date_of_measurement')
+        elif self.request.user.id != patient_id:
+            raise HttpResponseForbidden('У вас немає доступу до цього ресурсу')
+        else:
+            analysis = Analysis.objects.filter(patient_id=self.request.user.id).order_by('-date_of_measurement')
+
+        paginator = Paginator(analysis, self.paginate_by)
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        context = {
+            'page_obj': page_obj,
+            'type_form': AnalysisTypeForm(),
+            'analysis_form': AnalysisForm(),
+            'is_doctor': is_doctor,
+            'is_patient': is_patient,
+            'patient_id': patient_id,
+        }
+        return context
+
+
+    def get(self, request, patient_id, *args, **kwargs):
+        """
+        Retrieve measurments for current patient grouped by date and paginate by 4 card on page
+        """
+        context = self.get_context_data(patient_id)
+        return render(request, self.template_name, context)
+    
+
+    def post(self, request, patient_id, *args, **kwargs):
+        analysis_form = AnalysisForm(request.POST, request.FILES)
+        analysis_type_form = AnalysisTypeForm(request.POST)
+        if analysis_form.is_valid() and analysis_type_form.is_valid():
+            patient = get_object_or_404(Patient, id=request.user.id)
+            analysis = analysis_form.save(commit=False)
+
+            _type = analysis_type_form.cleaned_data['name']
+            if (AnalysType.objects.filter(name = _type).exists()):
+                analysis_type = get_object_or_404(AnalysType, name=_type)
+            else:
+                analysis_type = analysis_type_form.save()
+
+            analysis.analysis_type = analysis_type
+            analysis.patient_id = patient
+            analysis.save()          
+            redirect_url = reverse_lazy('patient_analysis', kwargs={'patient_id': patient_id})
+            return redirect(redirect_url)
+        else:
+            context = self.get_context_data(patient_id)
+            return render(request, self.template_name, context)
+
+from django.conf import settings
+import os
+
+def download_pdf(request, patient_id):
+    patient = get_object_or_404(Patient, id=patient_id)
+    analysis = get_object_or_404(Analysis, patient_id=patient)
+    file_url = analysis.get_file_url()
+    file_path = os.path.join(settings.MEDIA_ROOT, file_url.lstrip('/'))
+    print(file_url)
+    response = FileResponse(open(file_path, 'rb'), content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{os.path.basename(file_path)}.pdf"'
+    return response

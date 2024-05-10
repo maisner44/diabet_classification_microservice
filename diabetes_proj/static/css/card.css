@@ -22,6 +22,11 @@ body {
     min-height: 600px;
 }
 
+.analyses_block{
+    display: flex;
+    flex-direction: column;
+}
+
 .card_nav__item {
     margin-bottom: 10px;
     text-align: center;
@@ -99,6 +104,24 @@ body {
 
 .bad{
     background-color: #ff6666;
+}
+
+.analysis_row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    padding: 20px 20px;
+    background-color: #4169E1;
+    color: #FFF;
+}
+
+
+.upload_error{
+    display: none;
+    color: red;
+    font-weight: 400;
+    font-size: 24px;
 }
 
 .dropzone{

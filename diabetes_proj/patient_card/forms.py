@@ -1,6 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from .models import GlucoseMeasurement, PhysicalActivityMeasurement, TypeOfActivity, FoodMeasurement, FoodItem, InsulineDoseMeasurement
+from .models import Analysis, AnalysType
 
 class GlucoseMeasurementForm(forms.ModelForm):
     class Meta:
@@ -106,8 +107,21 @@ class InsulineDoseForm(forms.ModelForm):
                 field.widget.input_type = 'date'
 
 
-#class AnalysisForm(forms.ModelForm):
-    #class Meta:
-        #model = Analysis
-        #fields = ["analysis"]
+class AnalysisTypeForm(forms.ModelForm):
+    class Meta:
+        model = AnalysType
+        fields = ["name"]
+        labels = {
+            'name': _('Назва аналізу'),
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super(AnalysisTypeForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+
+class AnalysisForm(forms.ModelForm):
+    class Meta:
+        model = Analysis
+        fields = ["analysis"]
         

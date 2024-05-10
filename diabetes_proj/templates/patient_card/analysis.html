@@ -31,23 +31,23 @@
                 </ul>
             </div>
             <div class="col-md-10 border meas__section">
-              <div class="row my-3">
-                {% for date, measurements in page_obj %}
-                <div class="col-md-12">
-                    <h3 class="fs-5 text-center">{{ date }}</h3>
-                    {% for analysis in measurements %}
-                    <div class="row">
-                        <div class="col-md-4">
-                            {{ analysis.date_of_measurement }}
+            <div class="analyses_block">
+            {% for analysis in page_obj %}
+                <div class="row my-4">
+                    <div class="col-md-12">
+                        <div class="analysis_row">
+                            <span>{{ analysis.date_of_measurement }}</span>
+                            <span>{{ analysis.analysis_type.name }}</span>
+                            <a href="{% url 'analysis_download' patient_id=patient_id %}" download>
+                                <button type="button">
+                                    <img src="{% static 'img/svg/download.svg' %}" alt="Кнопка завантаження аналізу">
+                                </button>
+                            </a>
                         </div>
                     </div>
-                    {% endfor %}
                 </div>
-                {% if forloop.counter|divisibleby:6 and not forloop.last %}
-                </div><div class="row my-3">
-                {% endif %}
-                {% endfor %}
-              </div>
+              {% endfor %}
+            </div>
               <div class="row align-self-end">
                   <div class="col-md-12">
                       {% if page_obj.has_other_pages %}
@@ -81,9 +81,19 @@
                 <div class="col-12">
                     <form id="analysis_drag" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <input id="fileInput" type="file" name="analysis" style="display:none">
-                        <div id="dropzone" class="dropzone">
-                            Перетягніть файл сюди або натисніть, щоб вибрати файл
+                        <div class="row align_items_center">
+                            <div class="col-md-6">
+                                {{ type_form.as_p }}
+                            </div>
+                            <div class="col-md-6">
+                                <input id="fileInput" type="file" name="analysis" style="display:none">
+                                <div id="dropzone" class="dropzone">
+                                    Перетягніть файл сюди або натисніть, щоб вибрати файл
+                                </div>
+                                <div class="upload_error" id="upload_error">
+                                    
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
