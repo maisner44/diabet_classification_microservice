@@ -37,7 +37,9 @@
                                 <h2>{{ doctor.last_name }} {{ doctor.first_name }}  {{ doctor.patronymic }}</h2>
                             </div>
                             <div class="col-md-4">
-                                <a href="#" class="btn btn-primary">Ред</a>
+                                {% if is_doctor and user.id == doctor.id %}
+                                <a href="{% url 'edit_doctor' doctor_id=doctor.id %}" class="btn btn-primary">Редагувати</a>
+                                {% endif %}
                                 <div class="hidden-text">
                                     {{doctor.unique_connect_token}}
                                 </div>

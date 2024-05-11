@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block styles %}
+
+{% endblock styles %}
+
+{% block content %}
+<section id="section" class="my-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ doctor_form.as_p }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ org_form.as_p }}
+                            {{ address_form.as_p }}
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Зберегти зміни</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

@@ -1,7 +1,6 @@
 from django.db import models
 from login.models import Doctor, Patient
 
-# Create your models here.
 class DoctorsProfileFeedback(models.Model):
     doctor_id = models.ForeignKey(Doctor, on_delete=models.CASCADE, db_index=True, null=True, blank=True)
     patient_id = models.ForeignKey(Patient, on_delete=models.PROTECT, db_index=True, null=True, blank=True)

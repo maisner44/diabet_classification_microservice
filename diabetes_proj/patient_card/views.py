@@ -24,7 +24,7 @@ class GlucoseMeasurmentView(View, UserRoleMixin):
         if is_doctor:
             glucose_measurements = GlucoseMeasurement.objects.filter(patient_id=patient_id).order_by('-date_of_measurement')
         elif self.request.user.id != patient_id:
-            raise HttpResponseForbidden('У вас немає доступу до цього ресурсу')
+            raise PermissionError('У вас немає доступу до цього ресурсу')
         else:
             glucose_measurements = GlucoseMeasurement.objects.filter(patient_id=self.request.user.id).order_by('-date_of_measurement')
 
@@ -50,7 +50,10 @@ class GlucoseMeasurmentView(View, UserRoleMixin):
         """
         Retrieve measurments for current patient grouped by date and paginate by 4 card on page
         """
-        context = self.get_context_data(patient_id)
+        try:
+            context = self.get_context_data(patient_id)
+        except PermissionError as e:
+            return HttpResponseForbidden('У вас немає доступу до цього ресурсу')
         return render(request, self.template_name, context)
     
 
@@ -264,7 +267,7 @@ class AnalysisLoadView(View, UserRoleMixin):
         if is_doctor:
             analysis = Analysis.objects.filter(patient_id=patient_id).order_by('-date_of_measurement')
         elif self.request.user.id != patient_id:
-            raise HttpResponseForbidden('У вас немає доступу до цього ресурсу')
+            raise PermissionError('У вас немає доступу до цього ресурсу')
         else:
             analysis = Analysis.objects.filter(patient_id=self.request.user.id).order_by('-date_of_measurement')
 
@@ -287,7 +290,10 @@ class AnalysisLoadView(View, UserRoleMixin):
         """
         Retrieve measurments for current patient grouped by date and paginate by 4 card on page
         """
-        context = self.get_context_data(patient_id)
+        try:
+            context = self.get_context_data(patient_id)
+        except PermissionError as e:
+            return HttpResponseForbidden('У вас немає доступу до цього ресурсу')
         return render(request, self.template_name, context)
     
 

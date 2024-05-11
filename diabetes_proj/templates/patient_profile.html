@@ -23,9 +23,11 @@
                             <div class="col-md-8">
                                 <h2>{{ patient.last_name }} {{ patient.first_name }}  {{ patient.patronymic }}</h2>
                             </div>
-                            <div class="col-md-4">
-                                <a href="#" class="btn btn-primary">Ред</a>
+                            {% if request.user %}
+                            <div class="col-md-4 text-end">
+                                <a href="{% url 'edit_patient' patient_id=patient.id %}" class="btn btn-primary">Редагувати профіль</a>
                             </div>
+                            {% endif %}
                         </div>
                         <p class="fs-5"><span class="fw-semibold">Тип діабету:</span> {{ patient.diabet_type }}</p>
                         <p class="fs-5"><span class="fw-semibold">Стать:</span> {{ patient.sex }}</p>

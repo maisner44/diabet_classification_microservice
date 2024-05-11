@@ -26,12 +26,12 @@ class Organization(models.Model):
     """
     Organization model for Doctor.This is organization where doctor is currently working
     """
-    organization_name = models.CharField(max_length=255, db_index=True)
-    organization_logo = models.ImageField(upload_to='organization-logos/',blank=True)
-    organization_phone = models.CharField(max_length=255)
-    organization_email = models.EmailField(_("Електронна пошта"))
-    organization_description = models.TextField()
-    organization_website_url = models.URLField(blank=True)
+    organization_name = models.CharField(max_length=255, db_index=True, blank=True, null=True)
+    organization_logo = models.ImageField(upload_to='organization-logos/',blank=True, null=True)
+    organization_phone = models.CharField(max_length=255, blank=True, null=True)
+    organization_email = models.EmailField(_("Електронна пошта"), blank=True, null=True)
+    organization_description = models.TextField(blank=True, null=True)
+    organization_website_url = models.URLField(blank=True, null=True)
     adress_id = models.ForeignKey(Adress, on_delete=models.SET_NULL, db_index=True, null=True, blank=True)
 
     class Meta:
@@ -72,8 +72,13 @@ class DiaScreenUser(User):
         Overriding abstract user metod from django.contrib.auth.models which add additional
         functional when this model is save to database
         """
-        if self.password:
+        if self.pk is None:
             self.password = make_password(self.password)
+        else:
+            old_instance = type(self).objects.get(pk=self.pk)
+            if self.password != old_instance.password:
+                self.password = make_password(self.password)
+
         if self.date_of_birth:
             self.age = self.calculate_age()
         super().save(*args, **kwargs)
@@ -153,7 +158,7 @@ class Patient(DiaScreenUser):
             self.is_oninsuline = True
         if self.doctor_id and not self.connect_to_doctor_date:
             self.connect_to_doctor_date = timezone.now()
-        super().save(*args, **kwargs)
+        super(Patient,self).save(*args, **kwargs)
         group = Group.objects.get(name='Patients')
         group.user_set.add(self)
 
