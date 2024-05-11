@@ -3,7 +3,7 @@
 
 
 {% block styles %}
-
+<link rel="stylesheet" href="{% static 'css/edit_profile.css' %}">
 {% endblock styles %}
 
 {% block content %}
@@ -15,11 +15,20 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-md-6">
-                            {{ doctor_form.as_p }}
+                            <div class="edit_form">
+                                <h3 class="mb-3">Редагування профілю</h3>
+                                {{ doctor_form.as_p }}
+                            </div>
                         </div>
                         <div class="col-md-6">
-                            {{ org_form.as_p }}
-                            {{ address_form.as_p }}
+                            <div class="org_form">
+                                <h3 class="mb-3">Інформація про організацію</h3>
+                                {{ org_form.as_p }} 
+                            </div>
+                            <div class="address_form">
+                                <h3 class="mb-3">Адреса організації</h3>
+                                {{ address_form.as_p }}
+                            </div>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Зберегти зміни</button>

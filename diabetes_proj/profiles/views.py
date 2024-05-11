@@ -139,7 +139,6 @@ def edit_doctor_profile(request, doctor_id):
     if doctor_id != request.user.id:
         return HttpResponseForbidden('У вас немає відповідного доступу')
     organization = doctor.organization_id
-    print(organization)
     if organization is None:
         organization = Organization()  
         address = Adress()

@@ -1,0 +1,14 @@
+.org_form{
+    background-color: beige;
+    padding: 20px 20px;
+}
+
+.address_form{
+    background-color: rgb(238, 238, 136);
+    padding: 20px 20px;
+}
+
+.edit_form{
+    background-color: bisque;
+    padding: 20px 20px;
+}

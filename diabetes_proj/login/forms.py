@@ -27,6 +27,7 @@ class PatientForm(forms.ModelForm):
             "height",
             "weight",
             "diabet_type",
+            "avatar"
         ]
 
     def clean_username(self):
@@ -54,6 +55,7 @@ class DoctorForm(forms.ModelForm):
             "category",
             "certificate_or_diploma",
             "about",
+            "avatar"
         ]
 
     def clean_username(self):

@@ -181,8 +181,6 @@ document.addEventListener('DOMContentLoaded', function(){
         return true;
     }
 
-
-
     function checkForDigits(word) {
         var regex = /\d/;
         return !regex.test(word);

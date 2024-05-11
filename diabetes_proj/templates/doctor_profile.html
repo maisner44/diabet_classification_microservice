@@ -48,6 +48,7 @@
                         </div>
                         <p class="fs-5"><span class="fw-semibold">Категорія:</span> {{ doctor.category }}</p>
                         <p class="fs-5"><span class="fw-semibold">Стаж лікаря:</span> {{ doctor.work_experience }}</p>
+                        {% if not doctor.organization_id is None and not doctor.organization_id.organization_name is None %}
                         <div class="row">
                             <h2 class="my-2 mb-3">Організація лікаря</h2>
                                 <div class="row">
@@ -71,8 +72,20 @@
                                             {{ doctor.organization_id.adress_id.postal_code}}
                                         </p>
                                     </div>
-                                </div>
+                            </div>
                         </div>
+                        {% else %}
+                            <div class="row">
+                                <h2 class="my-2 mb-3">Організація лікаря</h2>
+                                <div class="row">
+                                    {% if is_patient %}
+                                    <p>У лікаря ще не вказана організація</p>
+                                    {% else %}
+                                    <p>У вас ще не вказана організація. Вказати можна тут: <a class="btn btn-primary" href="{% url 'edit_doctor' doctor_id=doctor.id %}">Редагування профілю</a></p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="row">
