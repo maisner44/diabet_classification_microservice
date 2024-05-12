@@ -1,0 +1,26 @@
+.message_box{
+    background-color: bisque;
+    min-height: 800px;
+    width: 100%;
+}
+
+#chat-container {
+    max-height: 400px;
+    overflow-y: auto; 
+}
+
+.message {
+    background-color: #e0ec33;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.message strong {
+    color: #007bff;
+}
+
+.message p:last-child {
+    color: #888;
+    font-size: 0.8em;
+}

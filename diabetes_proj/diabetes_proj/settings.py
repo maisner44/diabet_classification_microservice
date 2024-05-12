@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'profiles',
     'blog',
     'patient_card',
+    'chat',
     'debug_toolbar',
 ]
 
