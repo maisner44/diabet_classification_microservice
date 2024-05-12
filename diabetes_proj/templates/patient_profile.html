@@ -23,7 +23,7 @@
                             <div class="col-md-8">
                                 <h2>{{ patient.last_name }} {{ patient.first_name }}  {{ patient.patronymic }}</h2>
                             </div>
-                            {% if request.user %}
+                            {% if request.user.id == patient.id %}
                             <div class="col-md-4 text-end">
                                 <a href="{% url 'edit_patient' patient_id=patient.id %}" class="btn btn-primary">Редагувати профіль</a>
                             </div>
@@ -37,6 +37,9 @@
                         <div class="row btn__row my-3">
                             <div class="col-md-6">
                                 <a href="{% url 'patient_card' patient_id=patient.id %}" class="btn btn-primary">Картка пацієнта</a>
+                                {% if is_doctor and request.user.id == patient.doctor_id.id %}
+                                <a href="{% url 'chat' sender_id=request.user.id receiver_id=patient.id %}" class="btn btn-primary">Написати пацієнту</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -87,9 +90,10 @@
                         <div class="row my-5">
                             <div class="col-auto">
                                 <a href="{% url 'doctor_profile' pk=patient.doctor_id.id %}" class="btn btn-primary">Профіль лікаря</a>
-                                <a href="" class="btn btn-primary">Написати лікарю</a>
+                                {% if is_patient %}
+                                <a href="{% url 'chat' sender_id=request.user.id receiver_id=patient.doctor_id.id %}" class="btn btn-primary">Написати лікарю</a>
+                                {% endif %}
                             </div>
-                            
                         </div>
                     </div>
                 </div>

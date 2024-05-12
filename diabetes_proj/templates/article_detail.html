@@ -18,7 +18,7 @@
                 <p class="article__date">{{ article.date_of_creation }}</p>
                 <p class="article__author fs-5">Автор статті: {{ article.article_author }}</p>
                 <p class="article__text fs-5">{{ article.article_description }}</p>
-                {% if not is_admin %}
+                {% if is_admin %}
                 <div class="row">
                     <div class="col-md-3">
                         <a href="#article_edit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#article_edit">Редагувати статтю</a>

@@ -70,8 +70,6 @@ class PatientEditProfileForm(forms.ModelForm):
         super(PatientEditProfileForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
-            if field_name == 'date_of_birth':
-                field.widget.input_type = 'date'
 
 
 class OrganizationForm(forms.ModelForm):

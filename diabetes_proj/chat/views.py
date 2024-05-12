@@ -9,6 +9,8 @@ def render_chat(request, sender_id, receiver_id):
     sender = get_object_or_404(User, pk=sender_id)
     receiver = get_object_or_404(User, pk=receiver_id)
     context = {
+        'sender': sender,
+        'receiver': receiver,
         'sender_id': sender.id,
         'receiver_id': receiver.id,
     }
@@ -38,7 +40,6 @@ def send_message(request):
 
    
 def load_messages(request, sender_id, receiver_id):
-   
     sender_receiver_messages = ChatMessage.objects.filter(sender_id=sender_id, receiver_id=receiver_id)
     receiver_sender_messages = ChatMessage.objects.filter(sender_id=receiver_id, receiver_id=sender_id)
 
@@ -47,6 +48,7 @@ def load_messages(request, sender_id, receiver_id):
     sorted_messages = sorted(all_messages, key=lambda message: message.timestamp)
     message_list = [
         {
+            'sender_id': message.sender_id,
             'sender_username': message.sender.username,
             'recipient_username': message.receiver.username,
             'timestamp': message.timestamp.strftime('%Y-%m-%d %H:%M:%S'),

@@ -9,16 +9,20 @@
 <section id="section" class="my-3">
     <div class="container">
         <div class="row align-items-center">
+            <div class="col-12">
+                <h2 class="text-center">Чат з користувачем {{ receiver.username }}</h2>
+            </div>
             <div class="col-12 text-center">
                 <div class="message_box" id="chat-container">
                     
                 </div>
-                <form id="message-form" class="mx-auto">
+                <form id="message-form">
                     {% csrf_token %}
                     <input type="hidden" id="sender-id" value="{{ sender_id }}">
                     <input type="hidden" id="receiver-id" value="{{ receiver_id }}">
+                    <input type="hidden" id="current-user-id" value="{{ request.user.id }}">
                     <textarea id="message-text" placeholder="Введіть повідомлення"></textarea>
-                    <button class="btn btn-primary" type="submit">Відправити повідомлення</button>
+                    <button class="btn btn-primary text-end" type="submit">Відправити повідомлення</button>
                 </form>
             </div>
         </div>

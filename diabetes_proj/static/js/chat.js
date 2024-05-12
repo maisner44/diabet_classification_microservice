@@ -41,14 +41,17 @@ $(document).ready(function() {
         $.ajax({
             url: `/chat/load-messages/${senderId}/${receiverId}/`, 
             method: 'GET',
-            success: function(data) {
-                
+            success: function(data) {               
                 $('#chat-container').empty();
+                var currentUserId = parseInt($('#current-user-id').val());
                 data.messages.forEach(function(message) {
+                    var isSentMessage = (message.sender_id == currentUserId);
+                    console.log(isSentMessage);
                     var messageHtml = `
-                        <div class="message">
-                            <p><strong>${message.sender_username}</strong> -> ${message.recipient_username}: ${message.content}</p>
-                            <p>Отправлено: ${message.timestamp}</p>
+                        <div class="message ${isSentMessage ? 'sent' : 'received'}">
+                            <p class="message-sender"><strong>${message.sender_username}</strong></p><hr>
+                            <p class="message-content">${message.content}</p>
+                            <p class="message-timestamp">${message.timestamp}</p>
                         </div>
                     `;
                     $('#chat-container').append(messageHtml);
