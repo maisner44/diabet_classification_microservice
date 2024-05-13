@@ -178,7 +178,6 @@ class FoodMeasurementView(View, UserRoleMixin):
             for prefix in prefixes:
                 form = FoodItemForm(request.POST, prefix=prefix)
                 if form.is_valid():
-                    print(form.cleaned_data)
                     food_item = FoodItem(
                         name=form.cleaned_data['name'],
                         proteins=form.cleaned_data['proteins'],
@@ -187,8 +186,6 @@ class FoodMeasurementView(View, UserRoleMixin):
                     )      
                     food_item.save()
                     measurement.food_items.add(food_item)
-                else:
-                    print(f"Form {prefix} errors: {form.errors}")
 
             measurement.bread_unit = measurement.calculate_bread_unit()
             measurement.save()
