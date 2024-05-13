@@ -5,6 +5,7 @@ from django.utils import timezone
 from datetime import datetime
 import uuid
 from django.contrib.auth.hashers import make_password
+from .utils.TOTP import *
 
 
 class Adress(models.Model):
@@ -57,6 +58,29 @@ class DiaScreenUser(User):
     age = models.IntegerField(db_index=True, blank=True, null=True)
     patronymic = models.CharField(max_length=255, blank=True)
     avatar = models.ImageField(default='placeholder-img.png', upload_to='profile-pics/', blank=True, null=True)
+    two_factor_enabled = models.BooleanField(default=False)
+    secret_key = models.CharField(max_length=255, blank=True, null=True)
+    qr_code = models.ImageField(upload_to='qr_codes/', blank=True, null=True)
+
+    def enable_two_factor(self):
+        if not self.two_factor_enabled:
+            self.two_factor_enabled = True
+            self.secret_key = generate_secret_key()
+            self.generate_qr_code()
+            self.save()
+
+    def disable_two_factor(self):
+        if self.two_factor_enabled:
+            self.two_factor_enabled = False
+            self.secret_key = None
+            self.qr_code = None
+            self.save()
+
+    def generate_qr_code(self):
+        uri = generate_provision_url(self.username)
+        if uri:
+            img = generate_qrcode(uri)
+            self.qr_code.save(f'qr_code_{self.username}.png', img, save=False)
 
     def calculate_age(self):
         """

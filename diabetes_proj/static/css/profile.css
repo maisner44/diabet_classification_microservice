@@ -47,3 +47,13 @@ footer {
     display: none;
 }
 
+.two-auth_block{
+    padding: 20px;
+    background-color: rgb(245, 82, 82);
+    opacity: 0.9;
+}
+
+.two-auth_block p{
+    font-weight: bold;
+    font-size: 18px;
+}

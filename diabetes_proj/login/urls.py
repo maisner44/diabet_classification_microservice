@@ -1,6 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
+from .views import enable_two_auth
 
 urlpatterns = [
     path('registration', views.registration, name='registration'),
@@ -12,4 +13,5 @@ urlpatterns = [
     path('reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(template_name = 'login/reset-password-confirm.html'), name='password_reset_confirm'),
     path('reset-password-complete', auth_views.PasswordResetCompleteView.as_view(template_name = 'login/reset-password-complete.html'), name='password_reset_complete'),
     path('logout', auth_views.LogoutView.as_view(next_page = 'login'), name='logout'),
+    path('enable-two-auth', enable_two_auth, name='enable_two_auth'),
 ]

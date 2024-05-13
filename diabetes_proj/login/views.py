@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.contrib.auth import login as auth_login
 
@@ -59,3 +60,11 @@ def user_login(request):
         form = AuthenticationForm()
     return render(request, 'login/login.html', {'form': form})
 
+
+@login_required
+def enable_two_auth(request):
+    user = request.user
+    if request.method == 'POST':
+        user.enable_two_factor()
+        return redirect('patient_profile')
+    return redirect('patient_profile', user.id)
