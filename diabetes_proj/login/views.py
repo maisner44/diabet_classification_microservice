@@ -60,11 +60,3 @@ def user_login(request):
         form = AuthenticationForm()
     return render(request, 'login/login.html', {'form': form})
 
-
-@login_required
-def enable_two_auth(request):
-    user = request.user
-    if request.method == 'POST':
-        user.enable_two_factor()
-        return redirect('patient_profile')
-    return redirect('patient_profile', user.id)
