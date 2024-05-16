@@ -10,7 +10,15 @@ document.addEventListener('DOMContentLoaded', function(){
         || !password_validation()
         || !initials_validation()
         || !phone_validator()
-        || !height_weight_validator()){
+        || !height_weight_validator()
+        || !sex_validation()
+        || !date_of_birth_validation()
+        || !diabet_type_validation()
+        || !country_validation()
+        || !city_validation()
+        || !street_validation()
+        || !house_number_validation()
+        || !postal_code_validation()){
             return false;
         }
 
@@ -184,6 +192,88 @@ document.addEventListener('DOMContentLoaded', function(){
     function checkForDigits(word) {
         var regex = /\d/;
         return !regex.test(word);
+    }
+
+    function sex_validation() {
+        var sex = document.getElementById('sex').value;
+        if (sex !== 'Male' && sex !== 'Female') {
+            alert('Виберіть вашу стать');
+            return false;
+        }
+        return true;
+    }
+
+    function date_of_birth_validation() {
+        var dob = document.getElementById('date_of_birth').value;
+        if (dob === '') {
+            alert('Заповніть поле дати народження');
+            return false;
+        }
+        return true;
+    }
+
+    function diabet_type_validation() {
+        var diabetType = document.getElementById('diabet_type').value;
+        if (diabetType === '') {
+            alert('Виберіть тип діабету');
+            return false;
+        }
+        return true;
+    }
+
+    function country_validation() {
+        var country = document.getElementById('country').value;
+        var countryFeedback = document.querySelector('.country-feedback');
+        if (!checkForDigits(country)) {
+            countryFeedback.innerText = 'Назва країни не може містити цифри';
+            return false;
+        }
+        countryFeedback.innerText = '';
+        return true;
+    }
+
+    function city_validation() {
+        var city = document.getElementById('city').value;
+        var cityFeedback = document.querySelector('.city-feedback');
+        if (!checkForDigits(city)) {
+            cityFeedback.innerText = 'Назва міста не може містити цифри';
+            return false;
+        }
+        cityFeedback.innerText = '';
+        return true;
+    }
+
+    function street_validation() {
+        var street = document.getElementById('street').value;
+        var streetFeedback = document.querySelector('.street-feedback');
+        if (!checkForDigits(street)) {
+            streetFeedback.innerText = 'Назва вулиці не може містити цифри';
+            return false;
+        }
+        streetFeedback.innerText = '';
+        return true;
+    }
+
+    function house_number_validation() {
+        var houseNumber = document.getElementById('house_number').value;
+        var houseFeedback = document.querySelector('.house-feedback');
+        if (isNaN(houseNumber) || houseNumber === '') {
+            houseFeedback.innerText = 'Некоректний номер будинку';
+            return false;
+        }
+        houseFeedback.innerText = '';
+        return true;
+    }
+
+    function postal_code_validation() {
+        var postalCode = document.getElementById('postal_code').value;
+        var postalFeedback = document.querySelector('.postal-feedback');
+        if (isNaN(postalCode) || postalCode === '') {
+            postalFeedback.innerText = 'Некоректний поштовий індекс';
+            return false;
+        }
+        postalFeedback.innerText = '';
+        return true;
     }
 });
 

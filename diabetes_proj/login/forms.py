@@ -1,5 +1,6 @@
 from django import forms
 from .models import Patient, Adress, Doctor
+from django.utils.translation import gettext_lazy as _
 
 class CustomDiascreenUserValidator:
     def clean_username(form, username):
@@ -29,6 +30,21 @@ class PatientForm(forms.ModelForm):
             "diabet_type",
             "avatar"
         ]
+        labels = {
+            "username": _('Логін'),
+            "email": _('Електронна пошта'),
+            "password": _('Пароль'),
+            "phone_number": _('Номер телефону'),
+            "date_of_birth": _('Дата народження'),
+            "sex": _('Стать'),
+            "first_name": _('Ім`я'),
+            "last_name": _('Прізвище'),
+            "patronymic": _('По-батькові'),
+            "height": _('Зріст'),
+            "weight": _('Вага'),
+            "diabet_type": _('Тип діабету'),
+            "avatar": _('Аватар профілю'),
+        }
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -57,6 +73,23 @@ class DoctorForm(forms.ModelForm):
             "about",
             "avatar"
         ]
+        labels = {
+            "username": _('Логін'),
+            "email": _('Електронна пошта'),
+            "password": _('Пароль'),
+            "phone_number": _('Номер телефону'),
+            "date_of_birth": _('Дата народження'),
+            "sex": _('Стать'),
+            "first_name": _('Ім`я'),
+            "last_name": _('Прізвище'),
+            "patronymic": _('По-батькові'),
+            "work_experience": _('Стаж роботи'),
+            "specialization": _('Спеціальность'),
+            "category": _('Категорія лікаря'),
+            "certificate_or_diploma": _('Сертифікат або диплом'),
+            "about": _('Про себе'),
+            "avatar": _('Аватар профілю'),
+        }
 
     def clean_username(self):
         username = self.cleaned_data.get('username')

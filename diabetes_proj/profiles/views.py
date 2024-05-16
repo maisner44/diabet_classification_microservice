@@ -170,3 +170,13 @@ def edit_doctor_profile(request, doctor_id):
         'address_form': address_form,
         'doctor': doctor
     })
+
+
+def unlink_doctor(request):
+    patient = get_object_or_404(Patient, id=request.user.id)
+    if request.method == 'POST':
+        patient.doctor_id = None
+        patient.connect_to_doctor_date = None
+        patient.save()
+        return redirect('patient_profile', pk = patient.id)
+    return redirect('patient_profile', pk = patient.id)
