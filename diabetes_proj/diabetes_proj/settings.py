@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
     'login',
     'doctor_search',
     'profiles',
@@ -46,6 +45,8 @@ INSTALLED_APPS = [
     'patient_card',
     'chat',
     'debug_toolbar',
+    'DiaScreenAPI',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
