@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from login.models import Doctor, Patient
 
 class DoctorsProfileFeedback(models.Model):
@@ -15,3 +16,10 @@ class DoctorsProfileFeedback(models.Model):
         Відгук від {self.patient_id}, до лікаря {self.doctor_id}
         створений о {self.date_of_created} та містить текст {self.feedback_text}
         '''
+
+
+class TechSupportTicket(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
+    text = models.TextField(max_length=2000, blank=False, null=False)
+    email = models.EmailField()
+    img = models.ImageField(upload_to='tech-support/tickets/', blank=True, null=True)

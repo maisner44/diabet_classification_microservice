@@ -9,6 +9,7 @@ from login.models import Doctor, Patient, Adress, Organization
 from login.forms import PatientForm, AdressForm
 from .models import DoctorsProfileFeedback
 from .forms import FeedbackForm, DoctorLinkForm, AdressEditForm, PatientEditProfileForm, OrganizationForm, DoctorEditProfileForm
+from .forms import TechTicketForm
 from .mixins import UserRoleMixin
 
 
@@ -180,3 +181,18 @@ def unlink_doctor(request):
         patient.save()
         return redirect('patient_profile', pk = patient.id)
     return redirect('patient_profile', pk = patient.id)
+
+
+def send_support_ticket(request):
+    user = request.user
+    tech_form = TechTicketForm()
+    if request.method == "POST":
+        tech_form = TechTicketForm(request.POST, request.FILES)
+        if tech_form.is_valid():
+            ticket = tech_form.save(commit=False)
+            ticket.user = user
+            ticket.save()
+            return redirect('support')
+    else:
+        return render(request, 'tech_support.html', {'tech_form': tech_form})
+

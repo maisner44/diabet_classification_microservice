@@ -1,3 +1,21 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+#section {
+    flex: 1;
+}
+
+footer{
+    margin-top: auto;
+}
 
 #header{
     background-color: #4169E1;

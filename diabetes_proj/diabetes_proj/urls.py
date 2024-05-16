@@ -19,10 +19,12 @@ from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
+from profiles.views import send_support_ticket
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name = 'index.html'), name='home'),
     path('admin/', admin.site.urls),
+    path('support/', send_support_ticket, name='support'),
     path('accounts/', include('login.urls')),
     path('doctor-search/', include('doctor_search.urls')),
     path('profile/', include('profiles.urls')),

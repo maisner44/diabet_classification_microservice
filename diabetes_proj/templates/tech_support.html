@@ -11,7 +11,21 @@
 <section id="section" class="my-3">
     <div class="container">
         <div class="row">
-            
+            <div class="col-12">
+                <h2 class="text-center">Форма зворотнього зв'язку</h2>
+                <div class="tech-form_block">
+                    <div class="row my-3">
+                        <div class="col-md-12">
+                            <form method="post" enctype="multipart/form-data" novalidate>
+                                {% csrf_token %}
+                                {{ tech_form.as_p }}
+                                <button class="btn btn-primary" type="submit">Відправити</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</section>
 {% endblock content %}

@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from login.models import Doctor, Patient, Adress, Organization
-from .models import DoctorsProfileFeedback
+from .models import DoctorsProfileFeedback, TechSupportTicket
 
 class FeedbackForm(forms.ModelForm):
     class Meta:
@@ -126,5 +126,22 @@ class DoctorEditProfileForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(DoctorEditProfileForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+
+
+class TechTicketForm(forms.ModelForm):
+    class Meta:
+        model = TechSupportTicket
+        fields = "__all__"
+        exclude = ["user"]
+        labels = {
+            "text": _('Опишіть вашу проблему'),
+            "email": _('Вкажіть електронну пошту'),
+            "img": _('Скріншот проблеми(за наявності)'),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(TechTicketForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
