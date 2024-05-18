@@ -45,8 +45,8 @@ class DiaScreenUser(User):
     """
     Choices for sex options for user
     """
-    MALE = 'Male'
-    FEMALE = 'Female'
+    MALE = 'Чоловіча'
+    FEMALE = 'Жіноча'
     SEX_CHOICES = (
         (MALE, 'Чоловічий'),
         (FEMALE, 'Жіночий'),

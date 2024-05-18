@@ -113,7 +113,7 @@ def edit_patient_profile(request, patient_id):
         return HttpResponseForbidden('У вас немає відповідного доступу')
 
     if request.method == 'POST':
-        patient_form = PatientEditProfileForm(request.POST, instance=patient)
+        patient_form = PatientEditProfileForm(request.POST, request.FILES, instance=patient)
         address_form = AdressEditForm(request.POST, instance=address)
         
         if patient_form.is_valid() and address_form.is_valid():

@@ -24,6 +24,7 @@ from profiles.views import send_support_ticket
 urlpatterns = [
     path('', TemplateView.as_view(template_name = 'index.html'), name='home'),
     path('admin/', admin.site.urls),
+    path('privacy-policy', TemplateView.as_view(template_name = 'privacy_policy.html'), name='policy'),
     path('support/', send_support_ticket, name='support'),
     path('accounts/', include('login.urls')),
     path('doctor-search/', include('doctor_search.urls')),
@@ -31,6 +32,6 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('card/', include('patient_card.urls')),
     path('chat/', include('chat.urls')),
-    path('api/', include('DiaScreenAPI.urls')),
+    #path('api/', include('DiaScreenAPI.urls')),
     path("__debug__/", include("debug_toolbar.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

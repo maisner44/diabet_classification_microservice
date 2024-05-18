@@ -23,8 +23,6 @@ class InformationPanel(generic.ListView, AdminRoleMixin):
         if article_form.is_valid():
             article_form.save()
             return redirect('information')
-        print('invalid')
-        print(article_form.errors)
         return redirect('information')
 
 

@@ -83,7 +83,7 @@
                                 <h2>{{ patient.doctor_id.last_name }} {{ patient.doctor_id.first_name }}  {{ patient.doctor_id.patronymic }}</h2>
                             </div>
                             {% if is_patient and patient.id == request.user.id %}
-                            <div class="col-md-4">
+                            <div class="col-md-4 text-end">
                                 <form action="{% url 'unlink_doctor' %}" method="post" novalidate>
                                     {% csrf_token %}
                                     <button type="submit" class="btn btn-danger">Відв'язати лікаря</button>
