@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'DiaScreenAPI',
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -165,3 +166,12 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'danissimo228337@gmail.com'
 EMAIL_HOST_PASSWORD = 'syjcssaanbxpeiob'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+      'rest_framework.authentication.SessionAuthentication',
+      'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 3
+}

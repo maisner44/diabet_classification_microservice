@@ -34,20 +34,20 @@ input[type="radio"] {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    width: 20px; /* Ширина */
-    height: 20px; /* Висота */
-    border: 2px solid #ccc; /* Товщина та колір рамки */
-    border-radius: 50%; /* Закруглення кутів для створення круглих радіокнопок */
-    outline: none; /* Видаляємо рамку фокусу */
-    cursor: pointer; /* Змінюємо курсор при наведенні */
-    vertical-align: middle; /* Вирівнюємо по вертикалі */
-    margin-right: 5px; /* Додатковий відступ з правого боку */
+    width: 20px; 
+    height: 20px; 
+    border: 2px solid #ccc;
+    border-radius: 50%; 
+    outline: none;
+    cursor: pointer; 
+    vertical-align: middle; 
+    margin-right: 5px; 
   }
   
-  /* Стилі для вибраних радіокнопок */
+  
   input[type="radio"]:checked {
-    background-color: #007bff; /* Змінюємо колір фону для вибраних радіокнопок */
-    border-color: #007bff; /* Змінюємо колір рамки для вибраних радіокнопок */
+    background-color: #007bff; 
+    border-color: #007bff; 
   }
 
 

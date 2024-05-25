@@ -34,7 +34,9 @@
                             </div>
                             <div class="col-md-4">
                                 {% if is_doctor and user.id == doctor.id %}
-                                <a href="{% url 'edit_doctor' doctor_id=doctor.id %}" class="btn btn-primary">Редагувати</a>
+                                <a href="{% url 'edit_doctor' doctor_id=doctor.id %}" class="btn btn-primary">
+                                    <img src="{% static 'img/svg/pen-fill.svg' %}" alt="редагування профілю">
+                                </a>
                                 {% endif %}
                                 <div class="hidden-text">
                                     {{doctor.unique_connect_token}}
