@@ -2,8 +2,9 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from login.models import Patient
-from patient_card.models import GlucoseMeasurement
-from .serializers import PatientCreateSerializer, PatientListSerializer, GlucoseSerializer
+from patient_card.models import GlucoseMeasurement, PhysicalActivityMeasurement, InsulineDoseMeasurement, FoodItem, FoodMeasurement
+from .serializers import PatientCreateSerializer, PatientListSerializer, GlucoseSerializer, PhysicalActivityMeasurementSerializer, InsulineDoseSerializer
+from .serializers import FoodMeasurementSerializer
 
 class PatientCreateView(generics.CreateAPIView):
     queryset = Patient.objects.all()
@@ -32,6 +33,53 @@ class GlucoseCreateListView(generics.ListCreateAPIView):
         username = self.kwargs['username']
         patient = get_object_or_404(Patient, username=username)
         return GlucoseMeasurement.objects.filter(patient_id=patient.id)
+    
+    def perform_create(self, serializer):
+        username = self.kwargs['username']
+        patient = get_object_or_404(Patient, username=username)
+        serializer.save(patient_id = patient)
+
+
+class PhysicCreateListView(generics.ListCreateAPIView):
+    queryset = PhysicalActivityMeasurement.objects.all()
+    serializer_class = PhysicalActivityMeasurementSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        username = self.kwargs['username']
+        patient = get_object_or_404(Patient, username=username)
+        return PhysicalActivityMeasurement.objects.filter(patient_id=patient.id)
+    
+    def perform_create(self, serializer):
+        username = self.kwargs['username']
+        patient = get_object_or_404(Patient, username=username)
+        serializer.save(patient_id = patient)
+
+
+class InsulineCreateListView(generics.ListCreateAPIView):
+    queryset = InsulineDoseMeasurement.objects.all()
+    serializer_class = InsulineDoseSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        username = self.kwargs['username']
+        patient = get_object_or_404(Patient, username=username)
+        return InsulineDoseMeasurement.objects.filter(patient_id=patient.id)
+    
+    def perform_create(self, serializer):
+        username = self.kwargs['username']
+        patient = get_object_or_404(Patient, username=username)
+        serializer.save(patient_id = patient)
+
+class FoodMeasCreateListView(generics.ListCreateAPIView):
+    queryset = FoodMeasurement.objects.all()
+    serializer_class = FoodMeasurementSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        username = self.kwargs['username']
+        patient = get_object_or_404(Patient, username=username)
+        return FoodMeasurement.objects.filter(patient_id=patient.id)
     
     def perform_create(self, serializer):
         username = self.kwargs['username']
