@@ -1,6 +1,12 @@
+import re
 from django import forms
+from django.utils import timezone
+from django.contrib.auth.models import User
 from .models import Patient, Adress, Doctor
 from django.utils.translation import gettext_lazy as _
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from PIL import Image
 
 class CustomDiascreenUserValidator:
     def clean_username(form, username):
@@ -9,6 +15,49 @@ class CustomDiascreenUserValidator:
         if (len(username) < 6 or len(username) > 32):
             raise forms.ValidationError("Логін занадто короткий")
         return username
+    
+    def clean_password(form, password):
+        if (len(password) < 6):
+            raise forms.ValidationError("Пароль занадто короткий")
+        elif (len(password) > 32):
+            raise forms.ValidationError("Пароль занадто довгий")
+        return password
+        
+    def clean_email(form, email):
+        try:
+            validate_email(email)
+        except ValidationError:
+            raise forms.ValidationError("Некоректна email-адреса")
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Користувач з таким email вже існує")
+        return email
+    
+    def clean_date_of_birth(self, date_of_birth):
+        if date_of_birth > timezone.now().date():
+            raise forms.ValidationError("Дата народження не може бути в майбутньому")
+        return date_of_birth
+    
+    def clean_height(self, height):
+        if height <= 0 or height > 300:
+            raise forms.ValidationError("Некоректний зріст")
+        return height
+
+    def clean_weight(self, weight):
+        if weight <= 0 or weight > 500:
+            raise forms.ValidationError("Некоректна вага")
+        return weight
+    
+    def clean_nondigits(self, name):
+        if not re.match(r'^[a-zA-Zа-яА-ЯёЁіІїЇєЄ]+$', name):
+            raise forms.ValidationError("Рядок не може містити цифри або символи")
+        return name
+    
+    def clean_nonletters(self, name):
+        if re.match(r'^[a-zA-Zа-яА-ЯёЁіІїЇєЄ]+$', name):
+            raise forms.ValidationError("Рядок не може містити цифри або символи")
+        return name
+    
+
 
 class PatientForm(forms.ModelForm):
     validator = CustomDiascreenUserValidator()
@@ -49,6 +98,39 @@ class PatientForm(forms.ModelForm):
     def clean_username(self):
         username = self.cleaned_data.get('username')
         return self.validator.clean_username(username)
+    
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        return self.validator.clean_password(password)
+    
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        return self.validator.clean_email(email)
+    
+    def clean_date_of_birth(self):
+        date_of_birth = self.cleaned_data.get('date_of_birth')
+        return self.validator.clean_date_of_birth(date_of_birth)
+
+    def clean_height(self):
+        height = self.cleaned_data.get('height')
+        return self.validator.clean_height(height)
+
+    def clean_weight(self):
+        weight = self.cleaned_data.get('weight')
+        return self.validator.clean_weight(weight)
+    
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get('first_name')
+        return self.validator.clean_nondigits(first_name)
+    
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get('last_name')
+        return self.validator.clean_nondigits(last_name)
+    
+    def clean_patronymic(self):
+        patronymic = self.cleaned_data.get('patronymic')
+        return self.validator.clean_nondigits(patronymic)
+    
 
 
 class DoctorForm(forms.ModelForm):
@@ -94,6 +176,30 @@ class DoctorForm(forms.ModelForm):
     def clean_username(self):
         username = self.cleaned_data.get('username')
         return self.validator.clean_username(username)
+    
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        return self.validator.clean_password(password)
+    
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        return self.validator.clean_email(email)
+    
+    def clean_date_of_birth(self):
+        date_of_birth = self.cleaned_data.get('date_of_birth')
+        return self.validator.clean_date_of_birth(date_of_birth)
+    
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get('first_name')
+        return self.validator.clean_nondigits(first_name)
+    
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get('last_name')
+        return self.validator.clean_nondigits(last_name)
+    
+    def clean_patronymic(self):
+        patronymic = self.cleaned_data.get('patronymic')
+        return self.validator.clean_nondigits(patronymic)
     
 
 

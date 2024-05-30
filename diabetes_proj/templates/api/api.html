@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block styles %}
+
+{% endblock styles %}
+
+{% block content %}
+<section id="section" class="my-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center fs-2 fw-bold">
+                <h2>Використання API</h2><hr>
+            </div>
+            <div class="col-12 my-3">
+                <h3 class="text-start">Тільки GET запити</h3>
+                <ul>
+                    <li>http://127.0.0.1:8000/api/patients <span> - для отримання списку всіх пацієнтів додатку</span></li>
+                    <li>http://127.0.0.1:8000/api/doctor/<strong>doctorID</strong>/patients <span> - для отримання списку всіх пацієнтів конкретного доктора</span></li>
+                </ul>
+            </div>
+            <div class="col-12 my-3">
+                <h3 class="text-start">Тільки POST</h3>
+                <ul>
+                    <li class="mb-3">http://127.0.0.1:8000/api/create-patient <span> - для створення нового пацієнта</span></li>
+                    <li><div>
+                        <p>POST запит повинен приймати такі payloads:</p>
+                        <p>"username", "password", "date_of_birth", "first_name", "last_name", "patronymic", "height", "weight",
+                            "diabet_type", "email", "phone_number"</p>
+                    </div></li>
+                </ul>
+            </div>
+            <div class="col-12 my-3">
+                <h3 class="text-start">Ендпоінти для записів у картку пацієнта ( GET та POST методи )</h3>
+                <ul>
+                    <li class="mb-3">http://127.0.0.1:8000/api/patient/<strong>username</strong>/glucose-measurements <span> - створення запису по глюкозі</span></li>
+                    <li class="mb-3">http://127.0.0.1:8000/api/patient/<strong>username</strong>/physics <span> - створення запису по фізичній активності</span></li>
+                    <li class="mb-3">http://127.0.0.1:8000/api/patient/<strong>username</strong>/insuline-dose <span> - створення запису по ін'єкції інсуліну</span></li>
+                    <li class="mb-3">http://127.0.0.1:8000/api/patient/<strong>username</strong>/foods <span> - створення запису по прийому їжі</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

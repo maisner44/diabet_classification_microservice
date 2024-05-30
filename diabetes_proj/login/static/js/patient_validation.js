@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function(){
         || !initials_validation()
         || !phone_validator()
         || !height_weight_validator()
-        || !sex_validation()
         || !date_of_birth_validation()
         || !diabet_type_validation()
         || !country_validation()
@@ -192,15 +191,6 @@ document.addEventListener('DOMContentLoaded', function(){
     function checkForDigits(word) {
         var regex = /\d/;
         return !regex.test(word);
-    }
-
-    function sex_validation() {
-        var sex = document.getElementById('sex').value;
-        if (sex !== 'Male' && sex !== 'Female') {
-            alert('Виберіть вашу стать');
-            return false;
-        }
-        return true;
     }
 
     function date_of_birth_validation() {

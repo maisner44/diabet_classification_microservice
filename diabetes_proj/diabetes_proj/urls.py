@@ -25,6 +25,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name = 'index.html'), name='home'),
     path('admin/', admin.site.urls),
     path('privacy-policy', TemplateView.as_view(template_name = 'privacy_policy.html'), name='policy'),
+    path('api-view', TemplateView.as_view(template_name = 'api/api.html'), name='api'),
     path('support/', send_support_ticket, name='support'),
     path('accounts/', include('login.urls')),
     path('doctor-search/', include('doctor_search.urls')),

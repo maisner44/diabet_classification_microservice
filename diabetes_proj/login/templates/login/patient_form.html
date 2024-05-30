@@ -95,8 +95,8 @@
                                         <div class="col-md-4 mb-3">
                                             <label for="sex">Оберіть вашу стать<span class="label_span">*</span></label>
                                             <select id="sex" name="sex">
-                                                <option value="Male">Чоловіча</option>
-                                                <option value="Female">Жіноча</option>
+                                                <option value="Чоловіча">Чоловіча</option>
+                                                <option value="Жіноча">Жіноча</option>
                                             </select>
                                         </div>
                                         <div class="col-md-4 mb-3">
@@ -165,7 +165,7 @@
                                         <a href="{% url 'login' %}" class="btn btn-primary">Логін</a>
                                     </div>
                                     <div class="col-md-6 text-end">
-                                        <a class="btn btn-primary" href="#">Політика конфеденційності</a>
+                                        <a class="btn btn-primary" href="{% url 'policy' %}">Політика конфеденційності</a>
                                     </div>
                                 </div>
                             </form>
