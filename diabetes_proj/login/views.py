@@ -4,6 +4,9 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.contrib.auth import login as auth_login
+from django.contrib import messages
+from .forms import OTPForm
+from django_otp.plugins.otp_email.models import EmailDevice
 
 
 from .forms import PatientForm, AdressForm, DoctorForm
@@ -55,8 +58,35 @@ def user_login(request):
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
-            return redirect('home')
+            return redirect('handle_otp')
     else:
         form = AuthenticationForm()
     return render(request, 'login/login.html', {'form': form})
 
+
+@login_required
+def handle_otp(request):
+    user = request.user
+    device, created = EmailDevice.objects.get_or_create(user=user, name='default')
+
+    if request.method == 'POST':
+        form = OTPForm(request.POST)
+        if form.is_valid():
+            otp = form.cleaned_data['otp']
+            if device.verify_token(otp):
+                device.confirmed = True
+                device.save()
+                messages.success(request, 'Аутентифікація успішна.')
+                return redirect('home')
+            else:
+                messages.error(request, 'Код невірний.')
+        else:
+            return render(request, 'login/twofactor.html', {'form': form})
+    else:
+        if created or not device.confirmed:
+            device.generate_challenge()
+            messages.info(request, 'Код відправлено на пошту.')
+
+        form = OTPForm()
+
+    return render(request, 'login/twofactor.html', {'form': form})

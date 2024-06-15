@@ -28,11 +28,11 @@ $(document).ready(function() {
                 if (data.success) {
                     $('#message-text').val('');
                 } else {
-                    alert('Ошибка при отправке сообщения.');
+                    alert('Помилка при відправці повідомлення');
                 }
             },
             error: function(xhr, status, error) {
-                console.error('Ошибка при отправке сообщения:', error);
+                console.error('Помилка при відправці повідомлення:', error);
             }
         });
     }
@@ -58,7 +58,7 @@ $(document).ready(function() {
                 });
             },
             error: function(xhr, status, error) {
-                console.error('Ошибка при загрузке сообщений:', error);
+                console.error('Помилка при завантаженні повідомлень:', error);
             }
         });
     }

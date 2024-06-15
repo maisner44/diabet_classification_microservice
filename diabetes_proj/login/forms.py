@@ -202,9 +202,11 @@ class DoctorForm(forms.ModelForm):
         return self.validator.clean_nondigits(patronymic)
     
 
-
 class AdressForm(forms.ModelForm):
     class Meta:
         model = Adress
         fields = "__all__"
 
+
+class OTPForm(forms.Form):
+    otp = forms.CharField(label='Введіть код з письма:', max_length=6)
