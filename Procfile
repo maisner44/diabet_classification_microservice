@@ -1,1 +1,1 @@
-web: gunicorn diascreen.wsgi --log-file -
+web: gunicorn diabetes_proj.wsgi --log-file -
