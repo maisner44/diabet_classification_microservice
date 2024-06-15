@@ -1,0 +1,1 @@
+web: gunicorn diascreen.wsgi --log-file -
