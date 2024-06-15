@@ -1,1 +1,0 @@
-# diabet_classification_microservice
