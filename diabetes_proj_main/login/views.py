@@ -83,10 +83,8 @@ def handle_otp(request):
         else:
             return render(request, 'login/twofactor.html', {'form': form})
     else:
-        if created or not device.confirmed:
-            device.generate_challenge()
-            messages.info(request, 'Код відправлено на пошту.')
-
+        device.generate_challenge()
+        messages.info(request, 'Код відправлено на пошту.')
         form = OTPForm()
 
     return render(request, 'login/twofactor.html', {'form': form})
